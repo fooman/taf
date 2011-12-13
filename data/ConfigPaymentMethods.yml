@@ -1,0 +1,111 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+
+#<-------------3D Secure Credit Card Validation------------------------>
+enable_3d_secure:
+    configuration_scope: Default Config
+    tab_1: &enable3DSecure
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 'YOUR CREDENTIALS'
+            merchant_id: 'YOUR CREDENTIALS'
+            password: 'YOUR CREDENTIALS'
+            test_mode: Yes
+            debug_mode: Yes
+
+#<-------------Saved CC------------------------>
+savedcc_with_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: *enable3DSecure
+    tab_2:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_title: Credit Card (saved)
+            scc_new_order_status: %noValue%
+            scc_credit_card_type: all
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: Yes
+            scc_severe_3d_secure_card_validation: No
+            scc_centinel_api_url: 'YOUR CREDENTIALS'
+            scc_payment_from_applicable_countries: All Allowed Countries
+            scc_minimum_order_total: %noValue%
+            scc_maximum_order_total: %noValue%
+            scc_sort_order: %noValue%
+
+savedcc_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &savedCCWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_title: Credit Card (saved)
+            scc_new_order_status: %noValue%
+            scc_credit_card_type: all
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: No
+            scc_payment_from_applicable_countries: All Allowed Countries
+            scc_minimum_order_total: %noValue%
+            scc_maximum_order_total: %noValue%
+            scc_sort_order: %noValue%
+
+savedcc_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: No
+
+#<-------------Check / Money Order------------------------>
+checkmoney:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: Yes
+            cmo_title: Check / Money order
+            cmo_new_order_status: %noValue%
+            cmo_payment_from_applicable_countries: All Allowed Countries
+            cmo_payment_from_specific_countries: %noValue%
+            cmo_make_check_payable_to: %noValue%
+            cmo_send_check_to: %noValue%
+            cmo_minimum_order_total: %noValue%
+            cmo_maximum_order_total: %noValue%
+            cmo_sort_order: %noValue%
+
+check_money_order_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
+#<-------------All------------------------>
+all_payment_methods_without_3d:
+    configuration_scope: Default Config
+    tab_1: *savedCCWithout3Dsecure

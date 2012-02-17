@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -225,7 +225,7 @@ product_attribute_dropdown: &productAttributeDropdown
 product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
     # Properties Tab:
     catalog_input_type_for_store_owner: Dropdown
-    attribute_code: attr_dropdown_code
+    attribute_code: attr_dropdown_code_%randomize%
     scope: Global
     unique_value: %noValue%
     values_required: %noValue%
@@ -243,7 +243,7 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
     used_in_product_listing: %noValue%
     used_for_sorting_in_product_listing: %noValue%
     # Manage Label / Options Tab:
-    admin_title: Dropdown_Admin
+    admin_title: Dropdown_Admin_%randomize%
     store_view_titles:
         Default Store View: Dropdown_StoreView
     option_1:
@@ -330,4 +330,3 @@ product_attributes:
     product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
     product_attribute_price: *productAttributePrice
     product_attribute_mediaimage: *productAttributeMediaimage
-    

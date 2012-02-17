@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -135,7 +133,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed.</p>
      *
      * @depends withRequiredFieldsOnly
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField)
@@ -151,7 +149,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('store_view_name'),
@@ -247,7 +245,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataInvalidCode
+     * @dataProvider withInvalidCodeDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -261,7 +259,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'wrong_store_view_code');
     }
 
-    public function dataInvalidCode()
+    public function withInvalidCodeDataProvider()
     {
         return array(
             array('invalid code'),
@@ -269,5 +267,4 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
             array('2invalid_code2')
         );
     }
-
 }

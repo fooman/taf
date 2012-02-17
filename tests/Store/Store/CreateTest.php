@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Store_Store_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -105,7 +103,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Store is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -126,7 +124,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Data for withRequiredFieldsEmpty</p>
      * @return array
      */
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('store_name', 'field'),
@@ -182,5 +180,4 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_store');
     }
-
 }

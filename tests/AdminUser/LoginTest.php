@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,12 +35,21 @@
  */
 class AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+        $this->admin('log_in_to_admin', false);
+        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
+                && $this->isElementPresent(self::$xpathLogOutAdmin)) {
+            $this->logoutAdminUser();
+        }
+        $this->validatePage('log_in_to_admin');
+        $this->clickControl('link', 'forgot_password');
+        if ($this->controlIsPresent('pageelement', 'captcha')) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+            $this->logoutAdminUser();
+        }
     }
 
     /**
@@ -50,9 +58,9 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->setArea('admin');
-        $this->navigate('log_in_to_admin', false);
-        if (!$this->checkCurrentPage('log_in_to_admin') && $this->isElementPresent(self::$xpathLogOutAdmin)) {
+        $this->admin('log_in_to_admin', false);
+        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
+                && $this->isElementPresent(self::$xpathLogOutAdmin)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -88,7 +96,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This is a required field"</p>
      *
-     * @dataProvider dataEmptyLoginUser
+     * @dataProvider loginEmptyOneFieldDataProvider
      * @depends loginValidUser
      * @test
      */
@@ -103,7 +111,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyLoginUser()
+    public function loginEmptyOneFieldDataProvider()
     {
         return array(
             array('user_name'),
@@ -201,7 +209,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginWithoutPermissions()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Pre-Conditions
         $this->loginAdminUser();
@@ -278,7 +286,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function forgotPasswordCorrectEmail()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         $emailData = array('email' => $userData['email']);
         //Steps
         $this->loginAdminUser();
@@ -336,5 +344,4 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
     }
-
 }

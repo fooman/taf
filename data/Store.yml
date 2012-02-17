@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -29,10 +29,10 @@
 
 generic_store:
     website: Main Website
-    store_name: Test Store
+    store_name: Generic Store(%randomize%)
     root_category: Default Category
 
 edit_store:
-    store_name: Test Store 1
+    store_name: Main Website Store
     root_category: Default Category
     default_store_view: Default Store View

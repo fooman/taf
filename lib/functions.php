@@ -25,25 +25,26 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 if (!function_exists('array_replace_recursive')) {
-    function array_replace_recursive() {
-        $result = null;
+    function array_replace_recursive()
+    {
         $args = func_get_args();
-        if (isset($args[0]) && is_array($args[0])) {
-            $result = $args[0];
-            for ($i = 1; $i < func_num_args(); $i++) {
-                if (is_array($args[$i])) {
-                    foreach ($args[$i] as $key => $value) {
-                        if (!isset($args[$i][$key]) || (isset($args[$i][$key]) && !is_array($args[$i][$key]))) {
-                            $args[$i][$key] = array();
-                        }
-                        if (is_array($value)) {
-                            $value = array_replace_recursive($args[$i][$key], $value);
-                        }
-                        $result[$key] = $value;
-                    }
+        $result = $args[0];
+        if (!is_array($result)) {
+            return $result;
+        }
+        for ($i = 1; $i < count($args); $i++) {
+            if (!is_array($args[$i])) {
+                continue;
+            }
+            foreach ($args[$i] as $key => $value) {
+                if (!isset($result[$key]) || (isset($result[$key]) && !is_array($result[$key]))) {
+                    $result[$key] = array();
                 }
+                if (is_array($value)) {
+                    $value = array_replace_recursive($result[$key], $value);
+                }
+                $result[$key] = $value;
             }
         }
         return $result;

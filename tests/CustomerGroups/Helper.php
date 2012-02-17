@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class CustomerGroups_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create new Customer Group
      *
@@ -65,14 +63,11 @@ class CustomerGroups_Helper extends Mage_Selenium_TestCase
         }
         $searchData = $this->arrayEmptyClear($searchData);
         $xpathTR = $this->search($searchData, 'customer_group_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Customer Group is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('customer_group_grid_head', false);
-        if (array_key_exists('Group Name', $names)) {
-            $groupName = $this->getText($xpathTR . '//td[' . $names['Group Name'] . ']');
-            $this->addParameter('elementTitle', $groupName);
-        }
+        $this->assertNotNull($xpathTR, 'Customer Group is not found');
+        $cellId = $this->getColumnIdByName('Group Name');
+        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $names['Group Name'] . ']');
+        $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }

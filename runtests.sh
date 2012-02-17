@@ -27,7 +27,6 @@
 #
 
 OS=`uname -s`
-
 if [ "$OS" = "Darwin" ]
 then
     # We don't have `readlink -f` on OS X, so we roll our own, courtesy of:
@@ -36,6 +35,7 @@ then
     TARGET_FILE=`basename $0`
 
     # Iterate down a (possible) chain of symlinks
+
     while [ -L "$TARGET_FILE" ]
     do
         TARGET_FILE=`readlink $TARGET_FILE`
@@ -43,13 +43,13 @@ then
         TARGET_FILE=`basename $TARGET_FILE`
     done
 
-    # Compute the canonicalized name by finding the physical path 
+    # Compute the canonicalized name by finding the physical path
     # for the directory we're in and appending the target file.
+
     ABSPATH=`pwd -P`
 else
     ABSPATH=`dirname $(readlink -f $0)`
 fi
-
 CONFIG=$ABSPATH/phpunit.xml
 
 if [ -e $CONFIG ]

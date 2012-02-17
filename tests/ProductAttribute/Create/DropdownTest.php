@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -132,7 +130,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Dropdown" type] shouldn't be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -159,7 +157,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('attribute_code'),
@@ -181,7 +179,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *
-     * @dataProvider dataWrongCode
+     * @dataProvider withInvalidAttributeCodeDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -196,7 +194,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataWrongCode()
+    public function withInvalidAttributeCodeDataProvider()
     {
         return array(
             array('11code_wrong', 'invalid_attribute_code'),
@@ -220,7 +218,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
      * <p>Error JS message: 'Please use numbers only in this field.</p>
      * <p>Please avoid spaces or other characters such as dots or commas.' is displayed.</p>
      *
-     * @dataProvider dataInvalidPosition
+     * @dataProvider withInvalidPositionDataProvider
      * @depends withRequiredFieldsOnly
      * @test
      */
@@ -236,7 +234,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidPosition()
+    public function withInvalidPositionDataProvider()
     {
         return array(
             array('11code'),
@@ -320,5 +318,4 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
-
 }

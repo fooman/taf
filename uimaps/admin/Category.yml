@@ -145,3 +145,9 @@ edit_manage_categories:
     click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap
+
+edit_category:
+    mca: catalog_category/edit/store/0/id/%id%/
+    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    title: %elementTitle% / Manage Categories / Categories / Catalog / Magento Admin
+    uimap: *categoryUimap

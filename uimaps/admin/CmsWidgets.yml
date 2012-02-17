@@ -161,7 +161,8 @@ add_widget_options:
                                     buttons:
                                         select_option: //div[div/h4='Widget Options']//button[contains(span,'Select')]
                                     pageelements:
-                                        chosen_option: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
+                                        chosen_option: //label[@class='widget-option-label']
+                                        chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                                         page_id: //input[@name='parameters[page_id]']
                                         block_id: //input[@name='parameters[block_id]']
                                         category_id: //input[@name='parameters[id_path]']

@@ -42,7 +42,6 @@
  */
 class Customer_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Verify that address is present.
      *
@@ -90,7 +89,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
         //Open 'Addresses' tab
         $this->openTab('addresses');
         $addressNumber = $this->addAddressNumber();
-        $this->clickButton('add_new_address', FALSE);
+        $this->clickButton('add_new_address', false);
         $this->click('//*[@id=\'new_item' . $addressNumber . '\']');
         //Fill in 'Customer's Address' tab
         $this->fillForm($addressData, 'addresses');
@@ -103,7 +102,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
      * @param array $userData
      * @param array $addressData
      */
-    public function createCustomer(array $userData, array $addressData = NULL)
+    public function createCustomer(array $userData, array $addressData = null)
     {
         //Click 'Add New Customer' button.
         $this->clickButton('add_new_customer');
@@ -171,5 +170,4 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->fillForm($loginData);
         $this->clickButton('login');
     }
-
 }

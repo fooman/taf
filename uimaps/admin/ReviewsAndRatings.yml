@@ -48,16 +48,18 @@ manage_ratings:
                             grid_head: //table[@id='ratingsGrid_table']//tr[@class='headings']
         buttons:
             add_new_rating: //button[span='Add New Rating']
-        messages:
+        messages: &ratingMessages
             success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been saved.')]
             success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been deleted.')]
-
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
+            confirmation_for_delete: Are you sure you want to do this?
 
 new_rating:
     mca: rating/new/
     title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
-    uimap:
-        form: &newRating
+    uimap: &newRating
+        form:
             tabs:
                 -
                     rating_information:
@@ -78,17 +80,12 @@ new_rating:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_rating: //button[span='Save Rating']
-        messages:
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
+        messages: *ratingMessages
 
 new_edit_rating:
     mca: rating/edit/
     title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
-    uimap:
-        form: *newRating
-        messages:
-            existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
+    uimap: *newRating
 
 edit_rating:
     mca: rating/edit/id/%id%/
@@ -100,15 +97,14 @@ edit_rating:
             reset: //button[span='Reset']
             save_rating: //button[span='Save Rating']
             delete_rating: //button[span='Delete Rating']
-        messages:
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *ratingMessages
 
-all_reviews:
+manage_all_reviews:
     mca: catalog_product_review/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
     title: All Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
     uimap:
-        form:
+        form: &manageReviews
             fieldsets:
                 -
                     all_reviews_grid: &reviewGrid
@@ -142,12 +138,23 @@ all_reviews:
                             pending_reviews_rss: //a[text()='Pending Reviews RSS']
         buttons:
             add_new_review: //button[span='Add New Review']
-        messages:
+        messages: &reviewMessages
             success_saved_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been saved.')]
             success_deleted_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been deleted')]
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
             confirmation_for_delete_all: Are you sure?
+            confirmation_for_delete: Are you sure you want to do this?
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
+            not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 
+manage_pending_reviews:
+    mca: catalog_product_review/pending/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/pending/')]
+    title: Pending Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    uimap:
+        form: *manageReviews
+        messages: *reviewMessages
 
 add_new_review:
     mca: catalog_product_review/new/
@@ -195,18 +202,16 @@ add_new_review:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_review: //button[span='Save Review']
-        messages:
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
+        messages: *reviewMessages
 
 edit_review:
     mca: catalog_product_review/edit/id/%id%/
     title: Edit Review / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
-    uimap:
-        form: &editReview
+    uimap: &editReview
+        form:
             fieldsets:
                 -
-                    review_details: 
+                    review_details:
                         xpath: //div[@id='review_details']
                         links:
                             product: //a[text()='%productName%']
@@ -215,35 +220,19 @@ edit_review:
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:
-                            visible_in: //select[@name='select_stores[]']
+                            visible_in: //select[@id='select_stores']
                         fields:
                             nickname: //input[@name='nickname']
                             summary_of_review: //input[@name='title']
                             review: //textarea[@name='detail']
-        buttons: &editReviewButtons
+        buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_review: //button[span='Save Review']
             delete_review: //button[span='Delete Review']
-        messages: &editReviewMessages
-            confirmation_for_delete: Are you sure you want to do this?
-
-
-pending_reviews:
-    mca: catalog_product_review/pending/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/pending/')]
-    title: Pending Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    reviews_grid: *reviewGrid
+        messages: *reviewMessages
 
 edit_pending_review:
     mca: catalog_product_review/edit/id/%id%/ret/pending/
     title: Edit Review / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
-    uimap:
-        form: *editReview
-        buttons: *editReviewButtons
-        messages: *editReviewMessages
-
+    uimap: *editReview

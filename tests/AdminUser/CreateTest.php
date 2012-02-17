@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -57,8 +55,10 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Verify that 'Back' button is present.</p>
      * <p>4. Verify that 'Save User' button is present.</p>
      * <p>5. Verify that 'Reset' button is present.</p>
+     *
+     * @test
      */
-    public function test_Navigation()
+    public function navigationTest()
     {
         $this->assertTrue($this->buttonIsPresent('add_new_admin_user'),
                 'There is no "Add New Customer" button on the page');
@@ -80,12 +80,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user successfully saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends test_Navigation
+     * @depends navigationTest
+     *
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', Null, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -105,10 +107,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>User is not created. Error Message is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      * @param array $userData
+     *
+     * @test
      */
-    public function test_WithUserNameThatAlreadyExists($userData)
+    public function withUserNameThatAlreadyExists($userData)
     {
         //Data
         $userData['email'] = $this->generate('email', 20, 'valid');
@@ -128,10 +132,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>User is not created. Error Message is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
      * @param array $userData
+     *
+     * @test
      */
-    public function test_WithUserEmailThatAlreadyExists($userData)
+    public function withUserEmailThatAlreadyExists($userData)
     {
         //Data
         $userData['user_name'] = $this->generate('string', 5, ':lower:');
@@ -152,10 +158,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Message "This is a required field." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_emptyFields
+     * @depends withRequiredFieldsOnly
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     *
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $messageCount)
+    public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
                 array('email', 'user_name'));
@@ -168,7 +176,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
-    public function data_emptyFields()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('user_name', 1),
@@ -192,9 +200,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
      */
-    public function test_WithSpecialCharacters_exeptEmail()
+    public function withSpecialCharactersExeptEmail()
     {
         //Data
         $specialCharacters = array(
@@ -225,9 +235,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $password = $this->generate('string', 255, ':alnum:');
@@ -263,10 +275,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_invalidPassword
+     * @depends withRequiredFieldsOnly
+     * @dataProvider withInvalidPasswordDataProvider
+     *
+     * @test
      */
-    public function test_WithInvalidPassword($wrongPasswords, $errorMessage)
+    public function withInvalidPassword($wrongPasswords, $errorMessage)
     {
         //Data
         $userData = $this->loadData('generic_admin_user', $wrongPasswords, array('email', 'user_name'));
@@ -277,7 +291,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function data_invalidPassword()
+    public function withInvalidPasswordDataProvider()
     {
         return array(
             array(array(
@@ -293,8 +307,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
                     'password_confirmation' => '123qwe',
                 ), 'invalid_password'),
             array(array(
-                    'password' => '123123qwe',
-                    'password_confirmation' => '1231234qwe',
+                    'password' => '123qwe123',
+                    'password_confirmation' => '123qwe1234',
                 ), 'password_unmatch')
         );
     }
@@ -312,10 +326,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "Please enter a valid email." OR "Please enter a valid email address.
      * For example johndoe@domain.com." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_InvalidEmail
+     * @depends withRequiredFieldsOnly
+     * @dataProvider withInvalidEmailDataProvider
+     *
+     * @test
      */
-    public function test_WithInvalidEmail($invalidEmail)
+    public function withInvalidEmail($invalidEmail)
     {
         //Data
         $userData = $this->loadData('generic_admin_user', array('email' => $invalidEmail), 'user_name');
@@ -325,12 +341,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'invalid_email');
     }
 
-    public function data_InvalidEmail()
+    public function withInvalidEmailDataProvider()
     {
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@magento.com')
+            array('te@st@unknown-domain.com')
         );
     }
 
@@ -349,9 +365,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error Message "This account is inactive." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
      */
-    public function test_InactiveUser()
+    public function inactiveUser()
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
@@ -382,9 +400,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Logged in to Admin.</p>.
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
      */
-    public function test_WithRole()
+    public function withRole()
     {
         //Data
         $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
@@ -414,12 +434,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error Message "Access denied." is displayed.</p>
      *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     *
+     * @test
      */
-    public function test_WithoutRole()
+    public function withoutRole()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -430,5 +452,4 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('error', 'access_denied');
     }
-
 }

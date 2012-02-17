@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,10 +35,8 @@
  */
 class Mage_Selenium_Helper_Params
 {
-
     /**
      * Parameters array
-     *
      * @var array
      */
     protected $_paramsArray = array();
@@ -63,6 +60,8 @@ class Mage_Selenium_Helper_Params
      *
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)
+     *
+     * @return \Mage_Selenium_Helper_Params
      */
     public function setParameter($name, $value)
     {
@@ -72,6 +71,7 @@ class Mage_Selenium_Helper_Params
         } else {
             $this->_paramsArray[$key] = $value;
         }
+        return $this;
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Selenium_Helper_Params
      *
      * @param string $name Parameter name
      *
-     * @return string
+     * @return string|boolean Returns the parameter value or False
      */
     public function getParameter($name)
     {
@@ -98,27 +98,24 @@ class Mage_Selenium_Helper_Params
     {
         if (empty($this->_paramsArray) || !is_string($source) || empty($source)) {
             return $source;
-        } else {
-            return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
         }
+        return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
+
     }
 
     /**
-     * Populate string with Regexp for next matching
+     * Populate string with Regexp for future matching
      *
      * @param string $source Source string
-     * @param string $regexp Regular expression (by default = '(.*?)')
+     * @param string $regexp Regular expression (by default = '([^\/]+?)')
      *
      * @return string
      */
-    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)'/* '(.*?)' */)
+    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)')
     {
-        if (empty($this->_paramsArray)) {
-            return $source;
-        } else {
+        if ($this->_paramsArray) {
             return str_replace(array_keys($this->_paramsArray), $regexp, $source);
         }
-//       return preg_replace('/%([^\/]+?)%/', $regexp, $source);
+        return $source;
     }
-
 }

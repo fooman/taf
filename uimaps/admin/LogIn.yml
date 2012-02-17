@@ -75,4 +75,6 @@ forgot_password:
                             email: //input[@id='email']
                         links:
                             back_to_login: //a[text()='« Back to Login']
+                        pageelements:
+                            captcha: //img[@id='backend_forgotpassword']
         messages: *loginMessages

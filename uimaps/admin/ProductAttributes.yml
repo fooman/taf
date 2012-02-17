@@ -101,7 +101,7 @@ new_product_attribute:
                                     required: [attribute_code, apply_product_types]
                             -
                                 frontend_properties:
-                                    xpath: "//div[@id='front_fieldset' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='front_fieldset']"
                                     dropdowns:
                                         use_in_quick_search: //select[@id='is_searchable']
                                         use_in_advanced_search: //select[@id='is_visible_in_advanced_search']
@@ -115,7 +115,7 @@ new_product_attribute:
                                         used_in_product_listing: //select[@id='used_in_product_listing']
                                         used_for_sorting_in_product_listing: //select[@id='used_for_sort_by' and not(@disabled)]
                                     fields:
-                                        position: //input[@id='position' and not(@disabled)]
+                                        position: //input[@id='position']
                 -
                     manage_lables_options:
                         xpath: //a[@id='product_attribute_tabs_labels']/span
@@ -213,7 +213,7 @@ new_product_attribute_from_product_page:
         messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
+    mca: catalog_product/addAttribute/attribute/%attributeId%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: Manage Products / Catalog / Magento Admin
     uimap:
         form: &savedProductAttributeFromProductPageForm

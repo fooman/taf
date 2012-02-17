@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class OrderShipment_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or fill shipment
      *
@@ -50,7 +48,7 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
         $this->clickButton('ship');
         foreach ($shipmentData as $product => $options) {
             if (is_array($options)) {
-                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : NULL;
+                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : null;
                 $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;
@@ -65,10 +63,10 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
             $qtyXpath = $this->_getControlXpath('field', 'product_qty');
             $productCount = $this->getXpathCount($setXpath);
             for ($i = 1; $i <= $productCount; $i++) {
-                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
-                $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
-                $verify[$prod_sku] = $prod_qty;
+                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $verify[$prodSku] = $prodQty;
             }
         }
         $this->clickButton('submit_shipment');
@@ -79,10 +77,9 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
             }
             $this->addParameter('sku', $productSku);
             $this->addParameter('shippedQty', $qty);
-            $xpathShiped = $this->_getControlXpath('field', 'qty_shipped');
-            $this->assertTrue($this->isElementPresent($xpathShiped),
+            $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
+            $this->assertTrue($this->isElementPresent($xpathShipped),
                     'Qty of shipped products is incorrect at the orders form');
         }
     }
-
 }

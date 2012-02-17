@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -32,9 +32,9 @@
 customer_account_register:
     first_name: First name
     last_name: Last name
-    email: test_frontend@domain.com
-    password: 10101010
-    password_confirmation: 10101010
+    email: test_frontend_%randomize%@unknown-domain.com
+    password: passw0rd
+    password_confirmation: passw0rd
 
 #*******************************************************
 #*       Data for system configuration(Backend)        *
@@ -57,13 +57,13 @@ generic_customer_account:
     middle_name: %noValue%
     last_name: Last Name
     suffix: %noValue%
-    email: test_admin_1@domain.com
+    email: test_admin_%randomize%@unknown-domain.com
     date_of_birth: %noValue%
     tax_vat_number: %noValue%
     gender: %noValue%
     send_welcome_email: %noValue%
     send_from: %noValue%
-    password: 10101010
+    password: passw0rd
     auto_generated_password: %noValue%
 
 all_fields_customer_account:
@@ -74,13 +74,13 @@ all_fields_customer_account:
     middle_name: Middle Name
     last_name: Last Name
     suffix: Suffix
-    email: test_admin_2@domain.com
+    email: test_admin_%randomize%@unknown-domain.com
     date_of_birth: 12/12/1983
-    tax_vat_number: 01010101
+    tax_vat_number: 000000
     gender: Male
     send_welcome_email: Yes
     send_from: Default Store View
-    password: 10101010
+    password: passw0rd
     auto_generated_password: No
 
 #Test data for Customer Addresses
@@ -91,14 +91,14 @@ generic_address:
     last_name: Last Name
     suffix: %noValue%
     company: %noValue%
-    street_address_line_1: 10001 Any Street
-    street_address_line_2: Suite 00
+    street_address_line_1: 10401 Any Street
+    street_address_line_2: Suite 1
     city: Any City
     country: United States
     state: California
     region: %noValue%
     zip_code: 90232
-    telephone: 555-55-55
+    telephone: 530-918-3581
     fax: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
@@ -110,15 +110,15 @@ all_fields_address:
     last_name: Last Name
     suffix: Suffix
     company: Magento
-    street_address_line_1: 10001 Any Street
-    street_address_line_2: Suite 00
+    street_address_line_1: 10401 Any Street
+    street_address_line_2: Suite 1
     city: Any City
     country: United States
     state: California
     region: %noValue%
     zip_code: 90232
-    telephone: 555-55-55
-    fax: 555-55-55
+    telephone: 530-918-3581
+    fax: 530-918-3581
     default_billing_address: Yes
     default_shipping_address: Yes
 
@@ -126,7 +126,7 @@ search_customer:
     id_from: %noValue%
     id_to: %noValue%
     name: %noValue%
-    email: test_admin_1@domain.com
+    email: %noValue%
     group: General
     telephone: %noValue%
     zip_code: %noValue%

@@ -219,6 +219,7 @@ product_page:
 
         messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
@@ -228,7 +229,7 @@ product_page:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
 
 product_review:
-    mca: review/product/list/id/%productId%/
+    mca: review/product/list/id/%id%/
     title: %productTitle%
     uimap: &productReview
         form:
@@ -257,7 +258,7 @@ product_review:
                             show_per_page: //div[@class='limiter']/select
                         fields:
                             nickname: //input[@id='nickname_field']
-                            summary_of_your_review: //input[@id='summary_field']
+                            summary_of_review: //input[@id='summary_field']
                             review: //textarea[@id='review_field']
                         links:
                             review_summary: //dt[span='%reviewerName%']/a
@@ -274,11 +275,11 @@ product_review:
         messages: *productMessages
 
 product_review_index:
-    mca: review/product/list/id/%productId%/#review-form
+    mca: review/product/list/id/%id%/#review-form/
     title: %productTitle%
     uimap: *productReview
 
 product_review_category:
-    mca: review/product/list/id/%productId%/category/%categoryId%/#review-form
+    mca: review/product/list/id/%id%/category/%categoryId%/#review-form/
     title: %productTitle%
     uimap: *productReview

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -54,14 +52,15 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
     }
 
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
@@ -72,13 +71,17 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
     }
 
     /**
+     * <p>Smoke tests for order creation</p>
+     *
      * @depends createSimpleProduct
+     * @param string $simpleSku
+     * @return array
      * @test
      */
     public function orderSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -109,6 +112,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is invoiced successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function fullInvoice($orderData)
@@ -143,6 +147,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is invoiced successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function partialInvoice($orderData)
@@ -182,6 +187,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is invoiced and refunded successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function fullCreditMemoWithCheck($orderData)
@@ -216,6 +222,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is invoiced and refunded successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function partialCreditMemoWithCheck($orderData)
@@ -253,6 +260,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is shipped successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
@@ -287,6 +295,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is shipped successfully</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function partialShipmentForOrderWithoutInvoice($orderData)
@@ -305,9 +314,10 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
     }
 
     /**
-     * Cancel Pending Order From Order Page
+     * <p>Cancel Pending Order From Order Page</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function cancelPendingOrderFromOrderPage($orderData)
@@ -336,6 +346,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Order is unholded;</p>ss
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
@@ -378,6 +389,7 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
      * <p>Message "The order has been created." is displayed.</p>
      *
      * @depends orderSmoke
+     * @param array $orderData
      * @test
      */
     public function reorderPendingOrder($orderData)
@@ -395,5 +407,4 @@ class Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mage_Selenium
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
     }
-
 }

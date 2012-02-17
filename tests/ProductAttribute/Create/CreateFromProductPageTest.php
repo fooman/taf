@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -53,6 +51,16 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
     {
         $this->navigate('manage_products');
         $this->addParameter('id', 0);
+    }
+
+    protected function tearDown()
+    {
+        $windowQty = $this->getAllWindowNames();
+        if (count($windowQty) > 1 && end($windowQty) != 'null') {
+            $this->selectWindow("name=" . end($windowQty));
+            $this->close();
+            $this->selectWindow(null);
+        }
     }
 
     /**
@@ -72,10 +80,10 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
      * <p>New attribute successfully created.
      * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @dataProvider dataAttributeTypes
+     * @dataProvider onProductPageWithRequiredFieldsOnlyDataProvider
      * @test
      */
-    public function onProductPage_WithRequiredFieldsOnly($attributeType)
+    public function onProductPageWithRequiredFieldsOnly($attributeType)
     {
         //Data
         $productData = $this->loadData('simple_product_required');
@@ -89,7 +97,7 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
         $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
     }
 
-    public function dataAttributeTypes()
+    public function onProductPageWithRequiredFieldsOnlyDataProvider()
     {
         return array(
             array('product_attribute_textfield'),
@@ -102,15 +110,4 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
             array('product_attribute_fpt')
         );
     }
-
-    protected function tearDown()
-    {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
-    }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -52,15 +50,22 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
+    protected function tearDown()
+    {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('shipping_disable');
+    }
+
     /**
-     * Create Simple Product for tests
+     * <p>Create Simple Product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
@@ -83,17 +88,29 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
+     * @param $shipment
+     * @param $shippingOrigin
+     * @param $shippingDestination
+     * @param $simpleSku
+     *
      * @depends createSimpleProduct
-     * @dataProvider dataShipment
+     * @dataProvider shipmentDataProvider
+     * @param string $shipment
+     * @param string $shippingOrigin
+     * @param string $simpleSku
      * @test
      */
-    public function differentShipmentMethods($shipment, $simpleSku)
+    public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
+                               array('filter_sku' => $simpleSku));
         $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
         //Steps And Verifying
         $this->navigate('system_configuration');
+        if($shippingOrigin) {
+            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        }
         $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -108,23 +125,21 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
-    public function dataShipment()
+    /**
+     * <p>Data provider differentShipmentMethods test</p>
+     *
+     * @return array
+     */
+    public function shipmentDataProvider()
     {
         return array(
-            array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex'),
-            array('dhl_usa'),
-//@TODO:            array('dhl_int'),
+            array('flatrate', null, 'usa'),
+            array('free', null, 'usa'),
+            array('ups', 'usa', 'usa'),
+            array('upsxml', 'usa', 'usa'),
+            array('usps', 'usa', 'usa'),
+            array('fedex', 'usa', 'usa'),
+            array('dhl', 'usa', 'france'),
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
     }
 }

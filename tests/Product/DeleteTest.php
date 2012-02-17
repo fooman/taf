@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -70,7 +68,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is deleted, confirmation message appears;</p>
      *
-     * @dataProvider dataProductTypes
+     * @dataProvider deleteSingleProductDataProvider
      * @test
      *
      * @param string $type
@@ -91,7 +89,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
-    public function dataProductTypes()
+    public function deleteSingleProductDataProvider()
     {
         return array(
             array('simple'),
@@ -159,13 +157,13 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
      * Delete product that used in configurable
      *
      * @depends deleteSingleConfigurableProduct
-     * @dataProvider dataAssociatedType
+     * @dataProvider deleteAssociatedToConfigurableDataProvider
      * @test
      *
      * @param string $type
      * @param array $attrData
      */
-    public function deleteAssociatedToCinfigurable($type, $attrData)
+    public function deleteAssociatedToConfigurable($type, $attrData)
     {
         //Data
         $associated = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
@@ -192,7 +190,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
-    public function dataAssociatedType()
+    public function deleteAssociatedToConfigurableDataProvider()
     {
         return array(
             array('simple'),
@@ -204,7 +202,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
      * Delete product that used in Grouped or bundle
      *
      * @test
-     * @dataProvider dataProducts
+     * @dataProvider deleteAssociatedProductDataProvider
      *
      * @param string $associatedType
      * @param string $type
@@ -239,7 +237,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_product');
     }
 
-    public function dataProducts()
+    public function deleteAssociatedProductDataProvider()
     {
         return array(
             array('simple', 'grouped'),
@@ -283,5 +281,4 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
-
 }

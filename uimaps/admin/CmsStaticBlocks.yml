@@ -58,11 +58,9 @@ manage_cms_static_blocks:
              success_deleted_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
              no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
              confirmation_for_delete: Are you sure you want to do this?
-             specify_title: "//div[@id='advice-required-entry-block_title' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
-             specify_identifier: "//div[@id='advice-required-entry-block_identifier' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
-             specify_content: "//div[@id='advice-required-entry-block_content' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
+             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
              specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"
-             already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.']"
+             already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.')]"
              widget_validation_message: //div[@id='widget_window']//div[@class='validation-advice']
 
 # 'Edit Block %blockName%' page
@@ -125,7 +123,8 @@ edit_cms_static_block:
                             select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
                             close_widget_insertion: //div[@id='widget_window_close']
                         pageelements:
-                            chosen_option: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
+                            chosen_option: //label[@class='widget-option-label']
+                            chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                 -
                     select_page:
                         xpath: //div[@id='widget-chooser' and //div[text()='Select Page...']]

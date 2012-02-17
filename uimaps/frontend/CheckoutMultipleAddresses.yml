@@ -54,7 +54,6 @@ checkout_multishipping_login:
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
-            exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
             long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
             invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
             invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
@@ -68,7 +67,8 @@ checkout_multishipping_login:
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
-            success_checkout: //h1[contains(.,'Your order has been received')]
+            success_checkout: //h2[contains(.,'Thank you for your purchase!')]
+            success_registered_user: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
 
 checkout_multishipping_register:
     mca: checkout/multishipping/register/
@@ -101,15 +101,15 @@ checkout_multishipping_register:
                             reqion: //input[@id='region']
                             password: //input[@id='password']
                             password_confirmation: //input[@id='confirmation']
-        messages: &checkoutMessages
-            not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
-            not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
+        messages:
+            not_valid_length: //li[normalize-space(@class)='error-msg' and contains(.,'"%fieldName%" length must be equal or less than 255 characters.')]
             not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+            empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_mail: //div[@id='advice-validate-email-email_address']
             passwords_not_match: //div[@id='advice-validate-cpassword-confirmation']
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
+            please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
 
 checkout_multishipping_addresses:
     mca: checkout/multishipping/addresses/
@@ -132,6 +132,14 @@ checkout_multishipping_addresses:
                             shipping_address_choice: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[3]//select
                         fields:
                             qty: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[2]//input[@type='text']
+        pageelements: &validationSteps
+            select_addresses: //li[@title='Select Addresses']
+            shipping_information: //li[@title='Shipping Information']
+            billing_information: //li[@title='Billing Information']
+            place_order: //li[@title='Place Order']
+            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%param%]]/h3
+            order_success: //li[@title='Order Success']
+        messages: *checkoutMessages
 
 
 checkout_multishipping_add_new_address:
@@ -184,7 +192,8 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_the_entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
                             gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
-                            shipping_method: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
+                            ship_method: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
+                            one_method_selected: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and ../following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
                             gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
                             gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
@@ -192,10 +201,14 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
                             gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
+                            ship_service_name: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeader%')]]//dt[text()='%shipService%']
+                        pageelements:
+                            address_box_ship: //div/h2[following-sibling::*//div[./address%param%]]
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
             back_to_select_addresses: //a[text()='Back to Select Addresses']
+        pageelements: *validationSteps
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
@@ -256,6 +269,7 @@ checkout_multishipping_payment_methods:
             continue_to_review_order: //button[span='Continue to Review Your Order']
         links:
             back_to_shipping_information: //a[text()='Back to Shipping Information']
+        pageelements: *validationSteps
         messages: *checkoutMessages
 
 checkout_multishipping_select_billing_address:
@@ -270,8 +284,8 @@ checkout_multishipping_select_billing_address:
                         buttons:
                             add_new_address: //button[span='Add New Address']
                         links:
-                            edit_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/editAddress/id/')]
-                            select_address: //div[./address[%param%]]//a[contains(@href, 'multishipping_address/setBilling/id/')]
+                            edit_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/setBilling/id/')]
         messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:
@@ -323,13 +337,26 @@ checkout_multishipping_review_order:
                     review_order:
                         xpath: //div[div/h1[contains(text(),'Review Order')]]
                         links:
-                            billing_address_change: //a[contains(@href, 'editBilling/id/%addressId%/')]
+                            billing_address_change: //a[contains(@href, 'editBilling/')]
                             payment_method_change: //a[contains(@href, 'backtobilling/')][text()='Change']
-                            shipping_to_change: //a[contains(@href, 'editShipping/id/%addressId%/')]
-                            shipping_method_change: //div[div/div[h4[contains(text(), 'Shipping To')][a[contains(@href, 'editShipping/id/%addressId%/')]]]]//a[contains(@href, 'backtoshipping/')]
+                            shipping_to_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'editShipping/')]
+                            shipping_method_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'backtoshipping/')]
                             back_to_billing_information: //a[text() = 'Back to Billing Information')]
+                        pageelements:
+                            product_table_head: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
+                            price_totals: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
+                            product_line:  //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr
                         buttons:
                             place_order: //button[span='Place Order']
+                -
+                    3d_secure_card_validation:
+                        xpath: //iframe[@id='centinel_authenticate_iframe']
+                        fields:
+                            3d_password: //input[@name='external.field.password']
+                        buttons:
+                            3d_submit: //input[@value='Submit']
+                            3d_continue: //input[@value='Continue']
+        pageelements: *validationSteps
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
@@ -344,3 +371,5 @@ checkout_multishipping_success_order:
                             order_number: //a[text()='%orderId%']
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
+        pageelements: *validationSteps
+        messages: *checkoutMessages

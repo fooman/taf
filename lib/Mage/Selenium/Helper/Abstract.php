@@ -37,14 +37,12 @@ class Mage_Selenium_Helper_Abstract
 {
     /**
      * Current test case
-     *
      * @var Mage_Selenium_TestCase
      */
     protected $_testCase = null;
 
     /**
      * Test configuration object
-     *
      * @var Mage_Selenium_TestConfiguration
      */
     protected $_config = null;
@@ -62,7 +60,6 @@ class Mage_Selenium_Helper_Abstract
 
     /**
      * Initialize object
-     *
      * @return Mage_Selenium_AbstractHelper
      */
     protected function _init()
@@ -71,16 +68,24 @@ class Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Return config
+     * @return Mage_Selenium_TestConfiguration|null
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
+
+    /**
      * Set current testcase object to allow callbacks
      *
      * @param Mage_Selenium_TestCase $testCase Current test case
      *
-     * @return Mage_Selenium_AbstractHelper
+     * @return Mage_Selenium_Helper_Abstract
      */
     public function setTestCase(Mage_Selenium_TestCase $testCase)
     {
         $this->_testCase = $testCase;
         return $this;
     }
-
 }

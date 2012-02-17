@@ -27,7 +27,7 @@
  */
 
 /**
- * Page uimap class
+ * Page UIMap class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -36,20 +36,22 @@
 class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 {
     /**
-     * Page ID
+     * Page Identificator from UIMaps
      *
      * @var string
      */
-    protected $pageId = '';
+    protected $_pageId = '';
 
     /**
-     * Page MCA
+     * Page MCA, part of the page URL after baseURL
      *
      * @var string
      */
-    protected $mca = '';
+    protected $_mca = '';
 
     /**
+     * click_xpath defined in UIMaps
+     *
      * @var string
      */
     protected $_clickXpath = '';
@@ -59,7 +61,7 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      *
      * @var string
      */
-    protected $title = '';
+    protected $_title = '';
 
     /**
      * Page class constructor
@@ -69,19 +71,19 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      */
     public function  __construct($pageId, array &$pageContainer)
     {
-        $this->pageId = $pageId;
+        $this->_pageId = $pageId;
 
         if (isset($pageContainer['mca'])) {
-            $this->mca = $pageContainer['mca'];
+            $this->_mca = $pageContainer['mca'];
         }
         if (isset($pageContainer['click_xpath'])) {
             $this->_clickXpath = $pageContainer['click_xpath'];
         }
         if (isset($pageContainer['title'])) {
-            $this->title = $pageContainer['title'];
+            $this->_title = $pageContainer['title'];
         }
         if (isset($pageContainer['uimap'])) {
-            $this->parseContainerArray($pageContainer['uimap']);
+            $this->_parseContainerArray($pageContainer['uimap']);
         }
     }
 
@@ -92,31 +94,31 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      */
     public function getPageId()
     {
-        return $this->pageId;
+        return $this->_pageId;
     }
 
     /**
      * Get page mca
      *
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null (by default = null)
      *
      * @return string
      */
     public function getMca($paramsDecorator = null)
     {
-        return $this->applyParamsToString($this->mca, $paramsDecorator);
+        return $this->_applyParamsToString($this->_mca, $paramsDecorator);
     }
 
     /**
      * Get page click xpath
      *
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null (by default = null)
      *
      * @return string
      */
     public function getClickXpath($paramsDecorator = null)
     {
-        return $this->applyParamsToString($this->_clickXpath, $paramsDecorator);
+        return $this->_applyParamsToString($this->_clickXpath, $paramsDecorator);
     }
 
     /**
@@ -128,7 +130,7 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      */
     public function getTitle($paramsDecorator = null)
     {
-        return $this->applyParamsToString($this->title, $paramsDecorator);
+        return $this->_applyParamsToString($this->_title, $paramsDecorator);
     }
 
     /**

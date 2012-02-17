@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class Product_Create_VirtualTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -147,11 +145,11 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
-    public function emptyRequiredFieldInVirtual($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         if ($emptyField == 'general_sku') {
@@ -175,7 +173,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataEmptyField()
+    public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array('general_name', 'field'),
@@ -299,7 +297,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
@@ -327,7 +325,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
@@ -356,11 +354,11 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider tierPriceFields
+     * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
-    public function emptyTierPriceFieldsInVirtual($emptyTierPrice)
+    public function emptyTierPriceFields($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('virtual_product_required', null, 'general_sku');
@@ -374,7 +372,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function tierPriceFields()
+    public function emptyTierPriceFieldsDataProvider()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -394,7 +392,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidNumericField
+     * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
@@ -428,7 +426,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataInvalidQty
+     * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
@@ -445,7 +443,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    public function dataInvalidQty()
+    public function invalidQtyDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
@@ -454,7 +452,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
         );
     }
 
-    public function dataInvalidNumericField()
+    public function invalidNumericFieldDataProvider()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
@@ -463,5 +461,4 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array('-128')
         );
     }
-
 }

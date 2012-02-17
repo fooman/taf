@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -39,9 +39,9 @@ generic_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: johndoe@domain.com
-    password: 1a1a1a1a
-    password_confirmation: 1a1a1a1a
+    email: alias@unknown-domain.com
+    password: passw0rd
+    password_confirmation: passw0rd
     this_acount_is: %noValue%
     #user_role:
     role_name: %noValue%
@@ -51,12 +51,12 @@ search_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: johndoe@domain.com
+    email: alias@unknown-domain.com
     status: %noValue%
-    
+
 disable_admin_captcha:
     configuration_scope: Default Config
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha_enable_admin: No    
+            captcha_enable_admin: No

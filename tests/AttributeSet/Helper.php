@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class AttributeSet_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Create Attribute Set
      *
@@ -45,17 +43,19 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
     public function createAttributeSet(array $attrSet)
     {
         $attrSet = $this->arrayEmptyClear($attrSet);
+        $groups = (isset($attrSet['new_groups'])) ? $attrSet['new_groups'] : array();
+        $associatedAttr = (isset($attrSet['associated_attributes'])) ? $attrSet['associated_attributes'] : array();
+
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet);
         $this->addParameter('attributeName', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
-        if (array_key_exists('new_groups', $attrSet)) {
-            $this->addNewGroup($attrSet['new_groups']);
+
+        $this->addNewGroup($groups);
+        $this->addAttributeToSet($associatedAttr);
+        if ($groups || $associatedAttr) {
+            $this->saveForm('save_attribute_set');
         }
-        if (array_key_exists('associated_attributes', $attrSet)) {
-            $this->addAttributeToSet($attrSet['associated_attributes']);
-        }
-        $this->saveForm('save_attribute_set');
     }
 
     /**
@@ -75,7 +75,7 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
             $groupXpath = $this->_getControlXpath('link', 'group_folder');
             if (!$this->isElementPresent($groupXpath)) {
                 $this->answerOnNextPrompt($value);
-                $this->clickButton('add_group', FALSE);
+                $this->clickButton('add_group', false);
                 $this->getPrompt();
             }
         }
@@ -130,7 +130,10 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
         }
         $this->addParameter('attributeName', $setName);
         $searchData = $this->loadData('search_attribute_set', array('set_name' => $setName));
+
+        if ($this->getCurrentPage() !== 'manage_attribute_sets') {
+            $this->navigate('manage_attribute_sets');
+        }
         $this->assertTrue($this->searchAndOpen($searchData), "Attribute Set with name '$setName' is not found");
     }
-
 }

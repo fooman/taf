@@ -126,7 +126,8 @@ create_cms_page:
                                         select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
                                         close_widget_insertion: //div[@id='widget_window_close']
                                     pageelements:
-                                        chosen_option: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
+                                        chosen_option: //label[@class='widget-option-label']
+                                        chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                             -
                                 select_page:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Page...']]

@@ -36,7 +36,6 @@
  */
 class Mage_Selenium_Autoloader
 {
-
     /**
      * Registers the autoloader handler
      */
@@ -49,6 +48,7 @@ class Mage_Selenium_Autoloader
      * Autoload handler implementation. Performs calling of class/interface, which hasn't been defined yet
      *
      * @param string $className Class name to be loaded, e.g. Mage_Selenium_TestCase
+     *
      * @return boolean
      */
     public static function autoload($className)

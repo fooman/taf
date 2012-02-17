@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -66,7 +64,10 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Warning message appears before submitting order. Order is created</p>
      *
-     * @dataProvider dataProductWithValidationMessage
+     * @dataProvider orderWithProductWithValidationMessageDataProvider
+     * @param string $productData
+     * @param string $message
+     * @param integer $productQty
      * @test
      */
     public function orderWithProductWithValidationMessage($productData, $message, $productQty)
@@ -74,7 +75,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadData($productData, null, array('general_name', 'general_sku'));
 
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
                 array('filter_sku' => $simple['general_sku'], 'product_qty' => $productQty));
         $orderData = $this->arrayEmptyClear($orderData);
         $billingAddr = $orderData['billing_addr_data'];
@@ -93,7 +94,7 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+        $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
         $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
@@ -105,7 +106,12 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
-    public function dataProductWithValidationMessage()
+    /**
+     * <p>Data provider for orderWithProductWithValidationMessage test</p>
+     *
+     * @return array
+     */
+    public function orderWithProductWithValidationMessageDataProvider()
     {
         return array(
             array('simple_low_qty', 'requested_quantity_not_available', 5),
@@ -115,5 +121,4 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
             array('simple_with_increments', 'wrong_increments_qty', 5)
         );
     }
-
 }

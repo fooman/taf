@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -29,14 +29,14 @@
 
 generic_store_view:
     store_name: Main Website Store
-    store_view_name: Test Store View Name
-    store_view_code: test_store_view_code
+    store_view_name: Generic Store View(%randomize%)
+    store_view_code: %randomize%_store_view_code
     store_view_status: Enabled
     store_view_sort_order: %noValue%
 
 all_fields_store_view:
     store_name: Main Website Store
-    store_view_name: Test Store View Name 2
-    store_view_code: test_store_view_code_2
+    store_view_name: All Fields Store View(%randomize%)
+    store_view_code: %randomize%_store_view_code
     store_view_status: Enabled
     store_view_sort_order: 1

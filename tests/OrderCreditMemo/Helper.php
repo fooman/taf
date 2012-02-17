@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,11 +35,11 @@
  */
 class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Provides partial or full refund
      *
-     * @param array $refundData
+     * @param string $refundButton
+     * @param array $creditMemoData
      */
     public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array())
     {
@@ -49,7 +48,7 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
         $this->clickButton('credit_memo');
         foreach ($creditMemoData as $product => $options) {
             if (is_array($options)) {
-                $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : NULL;
+                $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : null;
                 $productQty = (isset($options['qty_to_refund'])) ? $options['qty_to_refund'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;
@@ -64,14 +63,14 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             $qtyXpath = $this->_getControlXpath('field', 'product_qty');
             $productCount = $this->getXpathCount($setXpath);
             for ($i = 1; $i <= $productCount; $i++) {
-                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
+                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
                 if ($this->isElementPresent($qtyXpath . "/input")) {
-                    $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
+                    $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
                 } else {
-                    $prod_qty = $this->getText($setXpath . "[$i]" . $qtyXpath);
+                    $prodQty = $this->getText($setXpath . "[$i]" . $qtyXpath);
                 }
-                $verify[$prod_sku] = $prod_qty;
+                $verify[$prodSku] = $prodQty;
             }
         }
         $buttonXpath = $this->_getControlXpath('button', 'update_qty');
@@ -92,5 +91,4 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                     'Qty of refunded products is incorrect at the orders form');
         }
     }
-
 }

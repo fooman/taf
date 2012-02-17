@@ -37,7 +37,6 @@ require_once('SymfonyComponents/YAML/sfYaml.php');
  */
 class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Loads YAML file and returns parsed data
      *
@@ -57,7 +56,7 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
     /**
      * Load multiple YAML files and return merged data
      *
-     * @param string $globExpr Filenames glob pattern
+     * @param string $globExpr File names glob pattern
      *
      * @return array
      */
@@ -75,5 +74,4 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
         }
         return $data;
     }
-
 }

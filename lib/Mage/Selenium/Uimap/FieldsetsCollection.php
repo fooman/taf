@@ -40,11 +40,10 @@ class Mage_Selenium_Uimap_FieldsetsCollection extends ArrayObject
      *
      * @param string $name Fieldset name
      *
-     * @return Mage_Selenium_Uimap_Fieldset
+     * @return Mage_Selenium_Uimap_Fieldset|null
      */
     public function getFieldset($name)
     {
         return isset($this[$name]) ? $this[$name] : null;
     }
-
 }

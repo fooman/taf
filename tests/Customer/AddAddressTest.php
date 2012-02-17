@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -34,9 +33,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
+class Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
-
     protected static $_customerTitleParameter = '';
 
     /**
@@ -60,21 +58,22 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer for add customer address tests</p>
-     *
+     * @group preConditions
      * @return array
      * @test
      */
     public function createCustomerTest()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return $userData;
+        return $searchData;
     }
 
     /**
@@ -88,16 +87,16 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
-     *
      * @depends createCustomerTest
-     * @param array $userData
-     * @return array
+     *
+     * @param array $searchData
+     *
      * @test
      */
-    public function withRequiredFieldsOnly(array $userData)
+    public function withRequiredFieldsOnly(array $searchData)
     {
         //Data
-        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+
         $addressData = $this->loadData('generic_address');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
@@ -105,69 +104,6 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-
-        return $searchData;
-    }
-
-    /**
-     * Add Address for customer with one empty reqired field.
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields exept one required.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address isn't added. Customer info is not saved.</p>
-     * <p>Error Message is displayed</p>
-     *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider dataEmptyFields
-     * @param array $emptyField
-     * @param array $searchData
-     * @test
-     */
-    public function withRequiredFieldsEmpty($emptyField, $searchData)
-    {
-        //Data
-        if ($emptyField != 'country') {
-            $addressData = $this->loadData('generic_address', array($emptyField => ''));
-        } else {
-            $addressData = $this->loadData('generic_address', array($emptyField => '', 'state' => '%noValue%'));
-        }
-        //Steps
-        $this->customerHelper()->openCustomer($searchData);
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying
-        // Defining and adding %fieldXpath% for customer Uimap
-        $fieldSet = $this->getUimapPage('admin', 'edit_customer')->findFieldset('edit_address');
-        if ($emptyField != 'country' and $emptyField != 'state') {
-            $fieldXpath = $fieldSet->findField($emptyField);
-        } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyField);
-        }
-        if ($emptyField == 'street_address_line_1') {
-            $fieldXpath .= "/ancestor::div[@class='multi-input']";
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
-
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    public function dataEmptyFields()
-    {
-        return array(
-            array('first_name'),
-            array('last_name'),
-            array('street_address_line_1'),
-            array('city'),
-            array('country'),
-            array('state'), // Fails because of MAGE-1424 // Should be required only if country='United States'
-            array('zip_code'),
-            array('telephone')
-        );
     }
 
     /**
@@ -176,16 +112,18 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>1. Search and open customer.</p>
      * <p>2. Open 'Addresses' tab.</p>
      * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data exept 'country' field.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
      * <p>5. Click  'Save Customer' button</p>
      * <p>Expected result:</p>
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $searchData
+     *
+     * @depends createCustomerTest
      * @test
      */
-    public function withSpecialCharactersExeptCountry(array $searchData)
+    public function withSpecialCharactersExceptCountry(array $searchData)
     {
         //Data
         $specialCharacters = array(
@@ -226,16 +164,20 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>1. Search and open customer.</p>
      * <p>2. Open 'Addresses' tab.</p>
      * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data exept 'country' field.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
      * <p>5. Click  'Save Customer' button</p>
      * <p>Expected result:</p>
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed. Length of fields are 255 characters.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $searchData
+     *
+     * @depends createCustomerTest
      * @test
+
+
      */
-    public function withLongValuesExeptCountry(array $searchData)
+    public function withLongValuesExceptCountry(array $searchData)
     {
         //Data
         $longValues = array(
@@ -282,8 +224,12 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $searchData
+     *
+     * @depends createCustomerTest
      * @test
+
+
      */
     public function withDefaultBillingAddress(array $searchData)
     {
@@ -316,7 +262,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $searchData
+     *
+     * @depends createCustomerTest
      * @test
      */
     public function withDefaultShippingAddress(array $searchData)
@@ -335,5 +283,4 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
-
 }

@@ -30,7 +30,7 @@ all_tags:
     mca: tag/
     click_xpath: //div[@class='nav-bar']//a[span='All Tags']
     title: All Tags / Tags / Catalog / Magento Admin
-    uimap:
+    uimap: &allTags
         form: &searchTagsGrid
             fieldsets:
                 -
@@ -64,6 +64,12 @@ all_tags:
             confirmation_for_delete: Are you sure you want to do this?
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
             required_name: //div[@id='advice-required-entry-name' and text()='This is a required field.']
+
+all_tags_index:
+    mca: tag/index/
+    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    title: All Tags / Tags / Catalog / Magento Admin
+    uimap: *allTags
 
 # Edit Tag Page
 edit_tag:

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,131 +35,252 @@
  */
 class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
 {
-
     /**
-     * Current application area
-     *
-     * @var string
+     * Path to testing applications config
      */
-    protected $_area = '';
+    const XPATH_APPLICATIONS = 'default/applications';
 
     /**
-     * Application information:
-     * array(
-     *      'frontendUrl'   => '',
-     *      'adminUrl'      => '',
-     *      'adminLogin'    => '',
-     *      'adminPassword' => '',
-     *      'basePath'      => ''
-     * )
-     *
+     * Default testing application
+     */
+    const DEFAULT_APPLICATION = 'default';
+
+    /**
+     * Default area id
+     */
+    const DEFAULT_AREA = 'frontend';
+
+    /**
+     * Configs for all applications
      * @var array
      */
-    protected $_appInfo = array();
+    protected $_applicationsConfig = array();
 
     /**
-     * Set current application area
-     *
-     * @param string $area Possible values are 'frontend' and 'admin'
-     *
-     * @return Mage_Selenium_Helper_Application
+     * List of all application names
+     * @var array
      */
-    public function setArea($area)
-    {
-        if (!in_array($area, array('admin', 'frontend'))) {
-            throw new OutOfRangeException();
-        }
-        $this->_area = $area;
-        return $this;
-    }
+    protected $_applicationNames = array();
 
     /**
-     * Get current application area
-     *
-     * @return string
+     * Config for current application
+     * @var array
      */
-    public function getArea()
-    {
-        return $this->_area;
-    }
+    protected $_applicationConfig = array();
 
     /**
-     * Get base url of current area
-     *
-     * @return string
+     * Name of current application
+     * @var string
      */
-    public function getBaseUrl()
-    {
-        $url = $this->isAdmin()
-                ? $this->_appInfo['adminUrl']
-                : $this->_appInfo['frontendUrl'];
-        return $url;
-    }
+    protected $_application;
 
     /**
-     * Get base path for application
-     *
-     * @return string
+     * Area information
+     * @var array
      */
-    public function getBasePath()
-    {
-        return $this->_appInfo['basePath'];
-    }
+    protected $_areaConfig;
 
     /**
-     * Change Application information
-     *
-     * @param string $configName
+     * Current area
+     * @var string
      */
-    public function changeAppInfo($configName)
-    {
-        $applications = $this->_config->getConfigValue('applications');
-        $this->_appInfo = $applications[$configName];
-    }
+    protected static $_area;
 
     /**
-     * Initializes Application information
-     *
+     * Initialize application
      * @return Mage_Selenium_Helper_Application
      */
     protected function _init()
     {
-        $applications = $this->_config->getConfigValue('applications');
-        $this->_appInfo = $applications['default'];
+        $this->changeApplication(self::DEFAULT_APPLICATION);
+        $this->setArea(self::DEFAULT_AREA);
         return parent::_init();
     }
 
     /**
-     * Checks if the current area is admin
-     *
-     * @return boolean
+     * Return config applications section
+     * @return array
      */
-    public function isAdmin()
+    public function getApplicationsConfig()
     {
-        if ('admin' == $this->_area) {
-            return true;
+        if (!$this->_applicationsConfig) {
+            $this->_applicationsConfig = $this->getConfig()->getConfigValue(self::XPATH_APPLICATIONS);
         }
-        return false;
+        return $this->_applicationsConfig;
     }
 
     /**
-     * Retrieve default admin user username
+     * Return list of application names
+     * @return array
+     */
+    public function getApplicationNames()
+    {
+        if (!$this->_applicationNames) {
+            $this->_applicationNames = array_keys($this->getApplicationsConfig());
+        }
+        return $this->_applicationNames;
+    }
+
+    /**
+     * Change current application
      *
+     * @param  string $name
+     *
+     * @return Mage_Selenium_Helper_Application
+     * @throws OutOfRangeException
+     */
+    public function changeApplication($name)
+    {
+        $config = $this->getApplicationsConfig();
+        if (!isset($config[$name])) {
+            throw new OutOfRangeException('Application with the ' . $name . ' name is absent');
+        }
+
+        $this->_applicationConfig = $config[$name];
+        $this->_application = $name;
+
+        return $this;
+    }
+
+    /**
+     * Return current application config
+     * @return array
+     */
+    public function getApplicationConfig()
+    {
+        return $this->_applicationConfig;
+    }
+
+    /**
+     * Return current application
+     * @return string
+     */
+    public function getApplication()
+    {
+        return $this->_application;
+    }
+
+    /**
+     * Return config areas section
+     * @return array
+     */
+    public function getAreasConfig()
+    {
+        $config = $this->getApplicationConfig();
+        return $config['areas'];
+    }
+
+    /**
+     * Return list of areas
+     * @return array
+     */
+    public function getAreas()
+    {
+        $config = $this->getAreasConfig();
+        return array_keys($config);
+    }
+
+    /**
+     * Return area config
+     * @return array
+     */
+    public function getAreaConfig()
+    {
+        return $this->_areaConfig;
+    }
+
+    /**
+     * Return current area
+     * @return string
+     */
+    public function getArea()
+    {
+        return self::$_area;
+    }
+
+    /**
+     * Set current area
+     *
+     * @param  string $name
+     *
+     * @return Mage_Selenium_Helper_Application
+     * @throws OutOfRangeException
+     */
+    public function setArea($name)
+    {
+        $config = $this->getAreasConfig();
+        if (!isset($config[$name])) {
+            throw new OutOfRangeException('Area with the name ' . $name . ' is absent');
+        }
+
+        $this->_areaConfig = $config[$name];
+        self::$_area = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get base url of current area
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        $config = $this->getAreaConfig();
+        return isset($config['url']) ? $config['url'] : null;
+    }
+
+    /**
+     * Get base path for application
+     * @return string
+     */
+    public function getBasePath()
+    {
+        $config = $this->getApplicationConfig();
+        return isset($config['basePath']) ? $config['basePath'] : null;
+    }
+
+    /**
+     * Retrieve default admin user name
      * @return string
      */
     public function getDefaultAdminUsername()
     {
-        return $this->_appInfo['adminLogin'];
+        $config = $this->getApplicationConfig();
+        return isset($config['adminLogin']) ? $config['adminLogin'] : null;
     }
 
     /**
      * Retrieve default admin user password
-     *
      * @return string
      */
     public function getDefaultAdminPassword()
     {
-        return $this->_appInfo['adminPassword'];
+        $config = $this->getApplicationConfig();
+        return isset($config['adminPassword']) ? $config['adminPassword'] : null;
     }
 
+    /**
+     * Change application information
+     * @deprecated @see $this->changeApplication()
+     *
+     * @param  string $name
+     *
+     * @return Mage_Selenium_Helper_Application
+     */
+    public function changeAppInfo($name)
+    {
+        return $this->changeApplication($name);
+    }
+
+    /**
+     * Checks if the current area is admin
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        if ('admin' == self::$_area) {
+            return true;
+        }
+        return false;
+    }
 }

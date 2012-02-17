@@ -23,7 +23,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -137,7 +137,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $arrayKey = $tab . '_data';
                 $this->openTab($tab);
                 if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
-                    foreach ($categoryData[$arrayKey] as $key => $value) {
+                    foreach ($categoryData[$arrayKey] as $value) {
                         $this->productHelper()->assignProduct($value, $tab);
                     }
                 }
@@ -146,30 +146,26 @@ class Category_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Root category
      *
-     * @param array $categotyData
-     */
-    public function createRootCategory(array $categotyData)
-    {
-        $this->clickButton('add_root_category', false);
-        $this->pleaseWait();
-        $this->fillCategoryInfo($categotyData);
-        $this->saveForm('save_category');
-    }
-
-    /**
-     * Create Sub category
-     *
-     * @param string $categoryPath
      * @param array $categoryData
      */
-    public function createSubCategory($categoryPath, array $categoryData)
+    public function createCategory($categoryData)
     {
-        $this->selectCategory($categoryPath);
-        $this->clickButton('add_sub_category', false);
+        if (is_string($categoryData)) {
+            $categoryData = $this->loadData($categoryData);
+        }
+        $categoryData = $this->arrayEmptyClear($categoryData);
+        if (array_key_exists('parent_category', $categoryData)) {
+            $this->selectCategory($categoryData['parent_category']);
+            $this->clickButton('add_sub_category', false);
+        } else {
+            $this->clickButton('add_root_category', false);
+        }
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
+        if (isset($categoryData['name'])) {
+            $this->addParameter('elementTitle', $categoryData['name']);
+        }
         $this->saveForm('save_category');
     }
 
@@ -178,10 +174,14 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function checkCategoriesPage()
     {
+        $this->addParameter('id', $this->defineIdFromUrl());
         $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories') {
+        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories'
+            && $currentPage != 'edit_category'
+        ) {
             $this->fail("Opened the wrong page: '" . $currentPage . "' (should be: 'manage_categories')");
         }
+        $this->validatePage($currentPage);
     }
 
     /**
@@ -189,6 +189,7 @@ class Category_Helper extends Mage_Selenium_TestCase
      *
      * @param string $buttonName
      * @param string $message
+     * @return bool
      */
     public function deleteCategory($buttonName, $message)
     {
@@ -276,7 +277,7 @@ class Category_Helper extends Mage_Selenium_TestCase
         $link = $link . '/a';
         if ($this->isElementPresent($link)) {
             //Determine category mca parameters
-            $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
+            $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getAreasConfig(),
                             $this->getAttribute($link . '@href'));
             if (preg_match('/\.html$/', $mca)) {
                 if (preg_match('|/|', $mca)) {
@@ -300,16 +301,12 @@ class Category_Helper extends Mage_Selenium_TestCase
                     }
                 }
             }
-            $this->clickAndWait($link);
+            $this->clickAndWait($link, $this->_browserTimeoutPeriod);
             $this->validatePage();
             return true;
         }
         $this->fail('"' . $categoryPath . '" category page could not be opened');
         return false;
-//        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $categoryPath)), '-');
-//        $this->addParameter('categoryTitle', $categoryPath);
-//        $this->addParameter('categoryUrl', $url);
-//        $this->frontend('category_page');
     }
 
     /**
@@ -348,25 +345,26 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductPrices(array $verificationData, $productName = '')
     {
+        if ($productName) {
+            $productName = "Product with name '$productName': ";
+        }
         $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentUimapPage()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->addVerificationMessage('Could not find element ' . $key . ' with price ' . $value);
+                $this->addVerificationMessage($productName . 'Could not find element ' . $key . ' with price ' . $value);
             }
             unset($pageelements['ex_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
             if (preg_match('/^ex_/', $key) && $this->isElementPresent($value)) {
-                $this->addVerificationMessage('Element ' . $key . ' is on the page');
+                $this->addVerificationMessage($productName . 'Element ' . $key . ' is on the page');
             }
         }
-        
-//        if ($this->getParsedMessages('verificationErrors')) {
-//            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
-//        }
+
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

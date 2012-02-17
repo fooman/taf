@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Log in to Backend.</p>
      */
@@ -66,7 +64,6 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->getParsedMessages());
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setData['set_name']);
         $this->clickButtonAndConfirm('delete_attribute_set', 'confirmation_for_delete');
@@ -101,7 +98,7 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_attribute_set_deleted');
         $this->navigate('manage_products');
         $xpath = $this->search($searchProduct);
-        $this->assertEquals(null, $xpath, 'Product is not deleted');
+        $this->assertNull($xpath, 'Product is not deleted');
     }
 
     /**
@@ -112,5 +109,4 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         $this->attributeSetHelper()->openAttributeSet('Default');
         $this->assertFalse($this->buttonIsPresent('delete_attribute_set'), 'There is "Delete" button on the page');
     }
-
 }

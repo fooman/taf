@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -59,7 +59,7 @@ free_enable:
             free_shipping_enabled: Yes
             free_shipping_title: Free Shipping
             free_shipping_method_name: Free
-            free_shipping_minimum_order_amount: %noValue%
+            free_shipping_minimum_order_amount: 1
             free_shipping_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
             free_shipping_ship_to_applicable_countries: All Allowed Countries
             free_shipping_ship_to_specific_countries: %noValue%
@@ -140,6 +140,7 @@ usps_enable:
             usps_user_id: 'YOUR CREDENTIALS'
             usps_password: 'YOUR CREDENTIALS'
             usps_ship_to_applicable_countries: All Allowed Countries
+            usps_debug: Yes
 
 fedex_enable:
     configuration_scope: Default Config
@@ -155,27 +156,31 @@ fedex_enable:
             fedex_residential_delivery: Yes
             fedex_allowed_methods: all
             fedex_ship_to_applicable_countries: All Allowed Countries
+            fedex_debug: Yes
 
 dhl_enable:
     configuration_scope: Default Config
     tab_1: &dhl
         tab_name: sales_shipping_methods
         configuration:
-            dhl_enabled_for_checkout: Yes
+            dhl_enabled: Yes
+            dhl_title: DHL
+            dhl_gateway_url: 'YOUR CREDENTIALS'
             dhl_access_id: 'YOUR CREDENTIALS'
             dhl_password: 'YOUR CREDENTIALS'
             dhl_account_number: 'YOUR CREDENTIALS'
-            dhl_shipping_key_international: 'YOUR CREDENTIALS'
-            dhl_shipping_key: 'YOUR CREDENTIALS'
+            dhl_shipping_key_int: 'YOUR CREDENTIALS'
             dhl_ship_to_applicable_countries: All Allowed Countries
+            dhl_allowed_methods: all
+            dhl_debug: Yes
 
 shipping_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_shipping_methods
         configuration:
-            dhl_enabled_for_checkout: No
             fedex_enabled_for_checkout: No
             usps_enabled_for_checkout: No
             ups_enabled: No
             free_shipping_enabled: No
+            dhl_enabled: No

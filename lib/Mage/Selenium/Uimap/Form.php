@@ -27,7 +27,7 @@
  */
 
 /**
- * Form uimap class
+ * Form UIMap class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -42,15 +42,15 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
      */
     public function  __construct(array &$formContainer)
     {
-        $this->parseContainerArray($formContainer);
+        $this->_parseContainerArray($formContainer);
     }
 
     /**
      * Get tab defined on the current form
      *
-     * @param string $id Tab's IDentifier
+     * @param string $id Tab's Identifier
      *
-     * @return Mage_Selenium_Uimap_Tab
+     * @return Mage_Selenium_Uimap_Tab|null
      */
     public function getTab($id)
     {

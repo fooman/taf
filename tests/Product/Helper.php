@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class Product_Helper extends Mage_Selenium_TestCase
 {
-
     public static $arrayToReturn = array();
 
     /**
@@ -45,7 +43,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType Value - simple|virtual|bundle|configurable|downloadable|grouped
      */
-    public function fillProductSettings($productData, $productType='simple')
+    public function fillProductSettings($productData, $productType = 'simple')
     {
         $attributeSet = (isset($productData['product_attribute_set']))
                             ? $productData['product_attribute_set']
@@ -245,7 +243,7 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
         $this->addParameter('tierPriceId', $rowNumber);
-        $this->clickButton('add_tier_price', FALSE);
+        $this->clickButton('add_tier_price', false);
         $this->fillForm($tierPriceData, 'prices');
     }
 
@@ -259,14 +257,14 @@ class Product_Helper extends Mage_Selenium_TestCase
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
         $optionId = $this->getXpathCount($fieldSetXpath) + 1;
         $this->addParameter('optionId', $optionId);
-        $this->clickButton('add_option', FALSE);
+        $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
-        foreach ($customOptionData as $row_key => $row_value) {
-            if (preg_match('/^custom_option_row/', $row_key) && is_array($row_value)) {
+        foreach ($customOptionData as $rowKey => $rowValue) {
+            if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
                 $rowId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'product_option_')][not(@style)]");
                 $this->addParameter('rowId', $rowId);
-                $this->clickButton('add_row', FALSE);
-                $this->fillForm($row_value, 'custom_options');
+                $this->clickButton('add_row', false);
+                $this->fillForm($rowValue, 'custom_options');
             }
         }
     }
@@ -274,9 +272,10 @@ class Product_Helper extends Mage_Selenium_TestCase
     /**
      * Select Website by Website name
      *
-     * @param type $websiteName
+     * @param $websiteName
+     * @param $action
      */
-    public function selectWebsite($websiteName, $action='select')
+    public function selectWebsite($websiteName, $action = 'select')
     {
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'product_websites');
         $this->addParameter('websiteName', $websiteName);
@@ -347,7 +346,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'bundle_items');
         $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
         $this->addParameter('optionId', $optionsCount);
-        $this->clickButton('add_new_option', FALSE);
+        $this->clickButton('add_new_option', false);
         $this->fillForm($bundleOptionData, 'bundle_items');
         foreach ($bundleOptionData as $key => $value) {
             $productSearch = array();
@@ -366,10 +365,10 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                 }
                 if ($productSearch) {
-                    $this->clickButton('add_selection', FALSE);
+                    $this->clickButton('add_selection', false);
                     $this->pleaseWait();
                     $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
-                    $this->clickButton('add_selected_products', FALSE);
+                    $this->clickButton('add_selected_products', false);
                     if ($selectionSettings) {
                         $this->fillForm($selectionSettings);
                     }
@@ -388,13 +387,13 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $fieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
         if (!$this->isElementPresent($fieldSet . "/parent::*[normalize-space(@class)='open']")) {
-            $this->clickControl('link', 'downloadable_' . $type, FALSE);
+            $this->clickControl('link', 'downloadable_' . $type, false);
         }
 
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'downloadable_' . $type);
         $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
         $this->addParameter('rowId', $rowNumber);
-        $this->clickButton('downloadable_' . $type . '_add_new_row', FALSE);
+        $this->clickButton('downloadable_' . $type . '_add_new_row', false);
         $this->fillForm($optionData, 'downloadable_information');
     }
 
@@ -441,7 +440,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType
      */
-    public function createProduct(array $productData, $productType='simple')
+    public function createProduct(array $productData, $productType = 'simple')
     {
         $productData = $this->arrayEmptyClear($productData);
         $this->clickButton('add_new_product');
@@ -459,7 +458,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $productData
      * @param string $productType
      */
-    public function fillProductInfo(array $productData, $productType='simple')
+    public function fillProductInfo(array $productData, $productType = 'simple')
     {
         $this->fillTab($productData);
         $this->fillTab($productData, 'prices');
@@ -497,22 +496,20 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $this->_prepareDataForSearch($productSearch);
         $xpathTR = $this->search($productSearch, 'product_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Product is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('product_grid_head', false);
-        if (array_key_exists('Name', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Name'] . ']');
-            $this->addParameter('productName', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Product is not found');
+        $cellId = $this->getColumnIdByName('Name');
+        $this->addParameter('productName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . "//a[text()='Edit']");
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
      * Verify product info
      *
      * @param array $productData
+     * @param array $skipElements
      */
     public function verifyProductInfo(array $productData, $skipElements = array())
     {
@@ -620,16 +617,15 @@ class Product_Helper extends Mage_Selenium_TestCase
             }
             $this->verifyForm($nestedArrays['downloadable_information_data'], 'downloadable_information');
         }
-//        // Error Output
-//        if ($this->getParsedMessages('verificationErrors')) {
-//            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
-//        }
+        // Error Output
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
      * Verify Tier Prices
      *
      * @param array $tierPriceData
+     * @return boolean
      */
     public function verifyTierPrices(array $tierPriceData)
     {
@@ -688,7 +684,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param string $fieldSetName
      * @param string $attributeTitle
      */
-    public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle=null)
+    public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle = null)
     {
         $fillingData = array();
 
@@ -729,6 +725,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * Verify Custom Options
      *
      * @param array $customOptionData
+     * @return boolean
      */
     public function verifyCustomOption(array $customOptionData)
     {
@@ -763,6 +760,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * verify Bundle Options
      *
      * @param array $bundleData
+     * @return boolean
      */
     public function verifyBundleOptions(array $bundleData)
     {
@@ -855,24 +853,19 @@ class Product_Helper extends Mage_Selenium_TestCase
     /**
      * Open product on FrontEnd
      *
-     * @param array $productName
+     * @param string $productName
+     * @param $categoryPath
      */
-    public function frontOpenProduct($productName, $categoryPath = NULL)
+    public function frontOpenProduct($productName, $categoryPath = null)
     {
-        $this->addParameter('categoryUrl', NULL);
-        if (is_array($productName)) {
-            if (array_key_exists('general_name', $productName)) {
-                $productName = $productName['general_name'];
-            } else {
-                $this->fail('Insufficient data to open a product');
-            }
+        $this->addParameter('categoryUrl', null);
+        if (!is_string($productName)) {
+                $this->fail('Wrong data to open a product');
         }
-        $productUrl = preg_replace('#[^0-9a-z]+#i', '-', $productName);
-        $productUrl = strtolower($productUrl);
-        $productUrl = trim($productUrl, '-');
-        $this->addParameter('productName', $productName);
+        $productUrl = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $productName)), '-');
         $this->addParameter('productUrl', $productUrl);
-        if ($categoryPath != NULL) {
+
+        if ($categoryPath) {
             $nodes = explode('/', $categoryPath);
             if (count($nodes) > 1) {
                 array_shift($nodes);
@@ -886,10 +879,9 @@ class Product_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('productTitle', $productName);
         }
-        $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
         $this->frontend('product_page');
-        $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
-        $openedProductName = $this->getText($xpathName);
+        $this->addParameter('productName', $productName);
+        $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
         $this->assertEquals($productName, $openedProductName,
                 "Product with name '$openedProductName' is opened, but should be '$productName'");
     }
@@ -920,24 +912,16 @@ class Product_Helper extends Mage_Selenium_TestCase
 //        For EE edition
 //        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
 //        if ($customize) {
-//            $this->clickButton('customize_and_add_to_cart', FALSE);
+//            $this->clickButton('customize_and_add_to_cart', false);
 //            $this->pleaseWait();
 //        }
         foreach ($dataForBuy as $value) {
-            if (isset($value['parameters'])) {
-                if (isset($value['parameters']['title'])) {
-                    $this->addParameter('title', $value['parameters']['title']);
-                }
-                if (isset($value['parameters']['optionTitle'])) {
-                    $this->addParameter('optionTitle', $value['parameters']['optionTitle']);
-                }
-                if (isset($value['parameters']['subproductName'])) {
-                    $this->addParameter('subproductName', $value['parameters']['subproductName']);
-                }
+            $fill = (isset($value['options_to_choose'])) ? $value['options_to_choose'] : array();
+            $params = (isset($value['parameters'])) ? $value['parameters'] : array();
+            foreach ($params as $key => $value) {
+                $this->addParameter($key, $value);
             }
-            if (isset($value['options_to_choose'])) {
-                $this->fillForm($value['options_to_choose']);
-            }
+            $this->fillForm($fill);
         }
     }
 
@@ -969,9 +953,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-//        if ($this->getParsedMessages('verificationErrors')) {
-//            $this->fail(implode("\n", call_user_func_array('array_merge', $this->getParsedMessages())));
-//        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -996,12 +978,12 @@ class Product_Helper extends Mage_Selenium_TestCase
             $priceToCalc = $productData['prices_price'];
         }
         $avail = (isset($productData['inventory_stock_availability'])) ?
-                $productData['inventory_stock_availability'] : NULL;
+                $productData['inventory_stock_availability'] : null;
         $allowedQty = (isset($productData['inventory_min_allowed_qty'])) ?
-                $productData['inventory_min_allowed_qty'] : NULL;
+                $productData['inventory_min_allowed_qty'] : null;
         $shortDescription = (isset($productData['general_short_description'])) ?
-                $productData['general_short_description'] : NULL;
-        $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : NULL;
+                $productData['general_short_description'] : null;
+        $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : null;
         if ($shortDescription) {
             $this->addParameter('shortDescription', $shortDescription);
             $xpathArray['Short Description'] = $this->_getControlXpath('pageelement', 'short_description');
@@ -1016,7 +998,7 @@ class Product_Helper extends Mage_Selenium_TestCase
             $xpathArray['Availability'] = $this->_getControlXpath('pageelement', 'availability_param');
             return $xpathArray;
         }
-        $allowedQty = ($allowedQty == NULL) ? '1' : $allowedQty;
+        $allowedQty = ($allowedQty == null) ? '1' : $allowedQty;
         $this->addParameter('price', $allowedQty);
         $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
         $i = 0;
@@ -1099,13 +1081,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
             if (array_key_exists('custom_options_image_size_x', $value)) {
-                $this->addParameter('fileExt', $value['custom_options_image_size_x'] . ' px.');
-                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $this->addParameter('fileWidth', $value['custom_options_image_size_x']);
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_max_width');
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
             if (array_key_exists('custom_options_image_size_y', $value)) {
-                $this->addParameter('fileExt', $value['custom_options_image_size_y'] . ' px.');
-                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_ext');
+                $this->addParameter('fileHeight', $value['custom_options_image_size_y']);
+                $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_max_height');
                 $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath . $xpathExt;
             }
         } else {
@@ -1119,7 +1101,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param string $priceToCalc
      * @param int $i
      * @param string $pageelement
-     * @return
+     * @return array
      */
     private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {
@@ -1153,5 +1135,4 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         return $xpathArray;
     }
-
 }

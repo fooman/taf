@@ -50,7 +50,7 @@ index_management:
                         pageelements:
                             selected_items: //strong[@id='indexer_processes_grid_massaction-count']
                             reindex_required: //tr[normalize-space(td/span)='Reindex Required']
-                            update_reqiured: //tr[normalize-space(td/span)='Yes']
+                            update_required: //tr[normalize-space(td/span)='Yes']
         messages:
             success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'Product Prices index was rebuilt.')]
             massaction_success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySelected% index(es) have reindexed data.')]

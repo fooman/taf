@@ -40,7 +40,7 @@ class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
      *
      * @param string $name Tab name
      *
-     * @return Mage_Selenium_Uimap_Tab
+     * @return Mage_Selenium_Uimap_Tab|null
      */
     public function getTab($name)
     {
@@ -48,5 +48,4 @@ class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
                 ? $this[$name]
                 : null;
     }
-
 }

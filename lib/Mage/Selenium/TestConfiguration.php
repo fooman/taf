@@ -37,62 +37,60 @@ class Mage_Selenium_TestConfiguration
 {
     /**
      * Data helper instance
-     *
      * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper = null;
 
     /**
      * Data generator helper instance
-     *
      * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGenerator = null;
 
     /**
      * Page helper instance
-     *
      * @var Mage_Selenium_Helper_Page
      */
     protected $_pageHelper = null;
 
     /**
      * File helper instance
-     *
      * @var Mage_Selenium_Helper_File
      */
     protected $_fileHelper = null;
 
     /**
      * Application helper instance
-     *
      * @var Mage_Selenium_Helper_Application
      */
     protected $_applicationHelper = null;
 
     /**
-     * Uimap helper instance
-     *
+     * UIMap helper instance
      * @var Mage_Selenium_Helper_Uimap
      */
     protected $_uimapHelper = null;
 
     /**
+     * Cache helper instance
+     * @var Mage_Selenium_Helper_Cache
+     */
+    protected $_cacheHelper;
+
+    /**
      * Initialized browsers connections
-     *
      * @var array[int]PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected $_drivers = array();
 
     /**
      * Current browser connection
-     *
      * @var PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     public $driver = null;
 
     /**
-     * Confiration object instance
+     * Configuration object instance
      *
      * @var Mage_Selenium_TestConfiguration
      */
@@ -100,20 +98,18 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Test data
-     *
      * @var array
      */
     protected $_testData = array();
 
     /**
      * Configuration data
-     *
      * @var array
      */
     protected $_configData = array();
 
     /**
-     * Constructor (defined as private to implement singleton)
+     * Constructor defined as private to implement singleton
      */
     private function __construct()
     {
@@ -121,13 +117,11 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Destructor<br>
-     * Extension: defines, browser need to be restarted or not.
+     * Extension: defines if the browser needs to be restarted.
      */
-    public function  __destruct()
+    public function __destruct()
     {
-        if ($this->getConfigValue('browsers/default/doNotKillBrowsers')
-            != 'true' && $this->_drivers
-        ) {
+        if ($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true' && $this->_drivers) {
             foreach ($this->_drivers as $driver) {
                 $driver->setContiguousSession(false);
                 $driver->stop();
@@ -136,11 +130,11 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initializes test configuration
+     * Get test configuration instance
      *
      * @return Mage_Selenium_TestConfiguration
      */
-    public static function initInstance()
+    public static function getInstance()
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -155,21 +149,19 @@ class Mage_Selenium_TestConfiguration
      * <li>Initialize DataSets
      * <li>Initialize UIMap instance
      * <li>Initialize all drivers connections from configuration
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function init()
     {
         $this->_initConfig();
-        $this->_initTestData();
         $this->getUimapHelper();
+        $this->_initTestData();
         $this->_initDrivers();
         return $this;
     }
 
     /**
-     * Performs retrieving of file helper instance
-     *
+     * Get file helper instance
      * @return Mage_Selenium_Helper_File
      */
     public function getFileHelper()
@@ -181,14 +173,14 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of file helper instance
+     * Get page helper instance
      *
-     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = NULL)
-     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = NULL)
+     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = null)
+     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = null)
      *
      * @return Mage_Selenium_Helper_Page
      */
-    public function getPageHelper($testCase=null, $applicationHelper=null)
+    public function getPageHelper($testCase = null, $applicationHelper = null)
     {
         if (is_null($this->_pageHelper)) {
             $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
@@ -203,8 +195,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of Data Generator helper instance
-     *
+     * Get Data Generator helper instance
      * @return Mage_Selenium_Helper_DataGenerator
      */
     public function getDataGenerator()
@@ -216,8 +207,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of Data helper instance
-     *
+     * Get Data helper instance
      * @return Mage_Selenium_Helper_Data
      */
     public function getDataHelper()
@@ -230,8 +220,7 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs retrieving of Application helper instance
-     *
-     * @return Mage_Selenium_Helper_File
+     * @return Mage_Selenium_Helper_Application
      */
     public function getApplicationHelper()
     {
@@ -242,8 +231,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of UIMap helper instance
-     *
+     * Get UIMap helper instance
      * @return Mage_Selenium_Helper_Uimap
      */
     public function getUimapHelper()
@@ -255,8 +243,19 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
+     * Retrieve cache helper
+     * @return Mage_Selenium_Helper_Cache
+     */
+    public function getCacheHelper()
+    {
+        if (!$this->_cacheHelper) {
+            $this->_cacheHelper = new Mage_Selenium_Helper_Cache($this);
+        }
+        return $this->_cacheHelper;
+    }
+
+    /**
      * Initializes and loads configuration data
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initConfig()
@@ -267,7 +266,6 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test data from default location
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initTestData()
@@ -278,14 +276,17 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes all driver connections from configuration
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initDrivers()
     {
         $connections = $this->getConfigValue('browsers');
-        foreach ($connections as $connection => $config) {
-            $this->_addDriverConnection($config);
+        if (array_key_exists('default', $connections)) {
+            $this->_addDriverConnection($connections['default']);
+        } else {
+            foreach ($connections as $config) {
+                $this->_addDriverConnection($config);
+            }
         }
         return $this;
     }
@@ -303,19 +304,20 @@ class Mage_Selenium_TestConfiguration
         $driver->setBrowser($connectionConfig['browser']);
         $driver->setHost($connectionConfig['host']);
         $driver->setPort($connectionConfig['port']);
+        $driver->setName($connectionConfig['name']);
         $driver->setContiguousSession(true);
         $this->_drivers[] = $driver;
-        // @TODO implement interations outside
+        // @TODO implement interactions outside
         $this->driver = $this->_drivers[0];
         return $this;
     }
 
     /**
-     * Performs retrieving of value from Configuration
+     * Get value from Configuration
      *
      * @param string $path - XPath-like path to config value (by default = '')
      *
-     * @return array
+     * @return array|string|false
      */
     public function getConfigValue($path = '')
     {
@@ -323,11 +325,11 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Performs retrieving of value from DataSet by path
+     * Get value from DataSet by path
      *
      * @param string $path XPath-like path to DataSet value (by default = '')
      *
-     * @return array|string
+     * @return array|string|false
      */
     public function getDataValue($path = '')
     {
@@ -340,7 +342,7 @@ class Mage_Selenium_TestConfiguration
      * @param array  $data Array of Configuration|DataSet data
      * @param string $path XPath-like path to Configuration|DataSet value
      *
-     * @return array|string
+     * @return array|string|false
      */
     protected function _descend($data, $path)
     {
@@ -360,36 +362,31 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Performs loading and merging of DataSet files
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _loadTestData()
     {
         $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . '*.yml';
+            . DIRECTORY_SEPARATOR . '*.yml';
         $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
         return $this;
     }
 
     /**
      * Performs loading of Configuration files
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _loadConfigData()
     {
-        $files = array(
-            'browsers.yml',
-            'local.yml'
-        );
-        $configDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        $files = array('local.yml', 'config.yml');
         foreach ($files as $file) {
-            $fileData = $this->getFileHelper()->loadYamlFile($configDir . $file);
+            $configDir = implode(DIRECTORY_SEPARATOR, array(SELENIUM_TESTS_BASEDIR, 'config', $file));
+            $fileData = $this->getFileHelper()->loadYamlFile($configDir);
             if ($fileData) {
-                $this->_configData = array_replace_recursive($this->_configData, $fileData);
+                $this->_configData = $fileData;
+                return $this;
             }
         }
         return $this;
     }
-
 }

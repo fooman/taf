@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class SystemConfiguration_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * System Configuration
      *
@@ -48,13 +46,13 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $parameters = $this->loadData($parameters);
         }
         $parameters = $this->arrayEmptyClear($parameters);
-        $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : NULL;
+        $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {
-                $this->defineParameters($toSelect, 'url');
+                $this->_defineParameters($toSelect, 'url');
                 $this->fillForm(array('current_configuration_scope' => $chooseScope));
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->validatePage();
@@ -62,15 +60,16 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         foreach ($parameters as $key => $value) {
             if (is_array($value)) {
-                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : NULL;
-                $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
+                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
+                $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
                 if ($tab) {
                     $xpath = $this->_getControlXpath('tab', $tab);
-                    $this->defineParameters($xpath, 'href');
-                    $this->clickAndWait($xpath);
+                    $this->_defineParameters($xpath, 'href');
+                    $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
-                    $this->assertMessagePresent('success', 'success_saved_config');
+                    $this->assertTrue($this->successMessage('success_saved_config'), 'Configuration are not saved');
+//                    $this->assertMessagePresent('success', 'success_saved_config');
                 }
             }
         }
@@ -82,7 +81,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
      * @param string $xpath
      * @param type $attribute
      */
-    private function defineParameters($xpath, $attribute)
+    private function _defineParameters($xpath, $attribute)
     {
         $params = $this->getAttribute($xpath . '/@' . $attribute);
         $params = explode('/', $params);
@@ -110,7 +109,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $this->admin('system_configuration');
         $xpath = $this->_getControlXpath('tab', 'general_web');
         $this->addParameter('tabName', 'web');
-        $this->clickAndWait($xpath);
+        $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
         $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
         $data = array('secure_base_url' => $url, 'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
@@ -119,9 +118,8 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         if ($this->getTitle() == 'Log into Magento Admin Page') {
             $this->loginAdminUser();
             $this->admin('system_configuration');
-            $this->clickAndWait($xpath);
+            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
-
 }

@@ -46,7 +46,7 @@ my_orders_history:
                             order_total: //tr[td='%orderId%']/td[span='%orderTotal%']
 
 my_orders_history_index:
-    mca: sales/order/history/%param%
+    mca: sales/order/history/%param%/
     title: My Orders
     uimap:
         form: *orderHistory
@@ -79,7 +79,7 @@ customer_account:
                     my_recent_tags:
                         xpath: //div[@class='box-account box-tags']
                         links:
-                            product_info: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
+                            tag: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
                 -
                     my_recent_reviews:
@@ -95,7 +95,7 @@ customer_account:
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
 
 my_account_view_tag:
-    mca: tag/customer/view/tagId/%id%
+    mca: tag/customer/view/tagId/%id%/
     title: My Tags
     uimap:
         form:
@@ -119,7 +119,7 @@ my_account_view_tag:
             confirmation_for_delete: Are you sure you want to delete this tag?
 
 my_account_my_tags:
-    mca: tag/customer
+    mca: tag/customer/
     title: My Tags
     uimap:
         form: &my_tags
@@ -152,7 +152,7 @@ my_product_reviews:
                         xpath: //div[@class='my-account']
                         links:
                             product_name: //a[text()='%productName%']
-                            view_details: //td[h2 = '%productName%']/following-sibling::td[3]/a
+                            view_details: //tr[//a='%productName%'']//a[text()='View Details']
                             add_your_review: //a[text()='Add Your Review']
                             reviews: //a[contains(text(),'Review(s)')]
                             back: //p[@class='back-link']/a
@@ -163,7 +163,7 @@ my_product_reviews:
                             show_per_page: //div[@class='limiter']/select
 
 my_product_reviews_details:
-    mca: review/customer/view/id/%reviewId%
+    mca: review/customer/view/id/%id%/
     title: Review Details
     uimap:
         form: &productReviewDetails
@@ -180,7 +180,7 @@ my_product_reviews_details:
                             average_customer_rating: //div[@class='ratings']//div[@class='rating']
 
 product_review_details:
-    mca: review/product/view/id/%reviewId%
+    mca: review/product/view/id/%id%/
     title: Magento Commerce
     uimap:
         form: &productReviewDetails

@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -30,30 +30,66 @@
 #*********************************************
 
 #<------------Billing Address Required------------>
-billing_address_req: &billingReq
+billing_address_req:
     address_choice: new
     billing_first_name: 'billing_Steven'
     billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: '11000 Great Blvd'
+    billing_street_address_1: '11832 W. Pico Blvd'
     billing_city: 'Los Angeles'
     billing_country: 'United States'
     billing_state: California
     billing_region: %noValue%
     billing_zip_code: '90064'
-    billing_telephone: '(555) 555-5555'
+    billing_telephone: '(310) 954-8012'
+
+billing_address_req_usa: &billingReqUsa
+    address_choice: new
+    billing_first_name: 'billing_Steven'
+    billing_last_name: 'billing_Stevenson'
+    billing_street_address_1: '11832 W. Pico Blvd'
+    billing_city: 'Los Angeles'
+    billing_country: 'United States'
+    billing_state: California
+    billing_region: %noValue%
+    billing_zip_code: '90064'
+    billing_telephone: '(310) 954-8012'
+
+billing_address_req_france: &billingReqFrance
+    address_choice: new
+    billing_first_name: Jean
+    billing_last_name: Reno
+    billing_street_address_1: 13, rue Jean Vilar
+    billing_city: Bergerac
+    billing_country: France
+    billing_state: Dordogne
+    billing_region: %noValue%
+    billing_zip_code: 24100
+    billing_telephone: 06 88 07 44 27
 
 #<------------Shipping Address Required------------>
-shipping_address_req: &shippingReq
+shipping_address_req:
     address_choice: new
     shipping_first_name: 'shipping_Steven'
     shipping_last_name: 'shipping_Stevenson'
-    shipping_street_address_1: '11000 Great Blvd'
+    shipping_street_address_1: '11832 W. Pico Blvd'
     shipping_city: 'Los Angeles'
     shipping_country: 'United States'
     shipping_state: California
     shipping_region: %noValue%
     shipping_zip_code: '90064'
-    shipping_telephone: '(555) 555-5555'
+    shipping_telephone: '(310) 954-8012'
+
+shipping_address_req_usa: &shippingReqUsa
+    address_choice: new
+    shipping_first_name: 'shipping_Steven'
+    shipping_last_name: 'shipping_Stevenson'
+    shipping_street_address_1: '11832 W. Pico Blvd'
+    shipping_city: 'Los Angeles'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_region: %noValue%
+    shipping_zip_code: '90064'
+    shipping_telephone: '(310) 954-8012'
 
 #<------------Billing Address ALL------------>
 billing_address_all: &billingAll
@@ -108,13 +144,13 @@ new_customer:
     middle_name: %noValue%
     last_name: 'Stevenson'
     suffix: 'Jr'
-    email: 'test_purpose@domain.com'
+    email: 'test_purpose@example.com'
     date_of_birth: 01/01/1976
-    tax_vat_number: '01010101'
+    tax_vat_number: '123123'
     gender: 'Male'
     send_welcome_email: No
     send_from: %noValue%
-    password: 10101010
+    password: passw0rd
     auto_generated_password: No
 
 shipping:
@@ -247,10 +283,10 @@ simple_max_allowed_qty:
 
 simple_product_for_order:
     product_attribute_set: Default
-    general_name: Simple Product For Order
+    general_name: Simple Product For Order(%randomize%)
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_order
+    general_sku: simple_sku_order_%randomize%
     general_weight: 18.56
     general_status: Enabled
     prices_price: 54.95
@@ -265,10 +301,10 @@ simple_product_for_order:
 #<------------VIRTUAL------------>
 virtual_product_for_order:
     product_attribute_set: Default
-    general_name: Virtual Product For Order
+    general_name: Virtual Product For Order(%randomize%)
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
-    general_sku: virtual_sku_order
+    general_sku: virtual_sku_order_%randomize%
     general_status: Enabled
     prices_price: 14.95
     prices_tax_class: None
@@ -298,10 +334,10 @@ downloadable_information_data: &downloadableData
 
 downloadable_product_for_order:
     product_attribute_set: Default
-    general_name: Downloadable Product For Order
+    general_name: Downloadable Product For Order(%randomize%)
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
-    general_sku: downloadable_sku_order
+    general_sku: downloadable_sku_order_%randomize%
     general_status: Enabled
     prices_price: 14.95
     prices_tax_class: None
@@ -334,10 +370,10 @@ order_associated_grouped_data: &associatedProductsGroupedData
 
 grouped_product_for_order:
     product_attribute_set: Default
-    general_name: Grouped Product  For Order
+    general_name: Grouped Product For Order(%randomize%)
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
-    general_sku: grouped_sku_order
+    general_sku: grouped_sku_order_%randomize%
     general_status: Enabled
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
@@ -401,11 +437,11 @@ order_bundle_items_data: &bundleData
 
 fixed_bundle_for_order:
     product_attribute_set: Default
-    general_name: Bundle(Fixed) Product For Order
+    general_name: Bundle(Fixed) Product For Order(%randomize%)
     general_description: Description for Bundle(Fixed) Product
     general_short_description: Short Description for Bundle(Fixed) Product Product
     general_sku_type: Fixed
-    general_sku: bundle_fixed_sku_order
+    general_sku: bundle_fixed_sku_order_%randomize%
     general_weight_type: Fixed
     general_weight: 0.999
     general_status: Enabled
@@ -439,10 +475,10 @@ order_associated_configurable_data: &associatedProductsConfigurableData
 configurable_product_for_order:
     product_attribute_set: Default
     configurable_attribute_title: %noValue%
-    general_name: Configurable Product For Order
+    general_name: Configurable Product For Order(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
-    general_sku: configurable_sku_order
+    general_sku: configurable_sku_order_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
@@ -469,171 +505,200 @@ saved_empty_all:
 saved_american_express: &americanExpressSavedCC
     name_on_card: 'Test Account'
     card_type: 'American Express'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '341111111111111'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
 
 saved_visa: &visaSavedCC
     name_on_card: 'Test Account'
     card_type: 'Visa'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '4000000000000002'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_mastercard: &mastercardSavedCC
     name_on_card: 'Test Account'
     card_type: 'MasterCard'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: 5200000000000007
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_jcb: &jcbSavedCC
     name_on_card: 'Test Account'
     card_type: 'JCB'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '3000000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
 
 saved_laser: &laserSavedCC
     name_on_card: 'Test Account'
     card_type: 'Laser'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_uatp: &uatpSavedCC
     name_on_card: 'Test Account'
     card_type: 'UATP'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_diners_club: &dinersClubSavedCC
     name_on_card: 'Test Account'
     card_type: 'Diners Club'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '30569309025904'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_switch_maestro: &switchMaestroSavedCC
     name_on_card: 'Test Account'
     card_type: 'Switch/Maestro'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_discover: &discoverSavedCC
     name_on_card: 'Test Account'
     card_type: 'Discover'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_solo: &soloSavedCC
     name_on_card: 'Test Account'
     card_type: 'Solo'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6767705369846419'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
     issue_number:
-    start_date_month: 'YOUR CREDENTIALS'
-    start_date_year: 'YOUR CREDENTIALS'
+    start_date_month: 12 - December
+    start_date_year: 2012
 
 saved_enroute: &enrouteSavedCC
     name_on_card: 'Test Account'
     card_type: 'enRoute'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 saved_other: &otherSavedCC
     name_on_card: 'Test Account'
     card_type: 'Other'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 #<------------ELSE------------>
 else_american_express: &americanExpressElse
     card_type: 'American Express'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '371449635398431'
+    #card_number: '341111111111111' #not work with payfloPro without3D
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
+else_american_express_direct:
+    card_type: 'American Express'
+    card_number: '340000000000009'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '1234'
 
 else_visa: &visaElse
     card_type: 'Visa'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '4000000000000002'
+    #card_number: '4832011527418035' #not work with payfloPro without3D
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_visa_direct:
+    card_type: 'Visa'
+    card_number: '4832011527418035'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
 
 else_mastercard: &mastercardElse
     card_type: 'MasterCard'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: 5200000000000007
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 else_discover: &discoverElse
     card_type: 'Discover'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6011000990139424'
+    #card_number: '6011000000000004' #not work with payfloPro without3D
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_discover_direct:
+    card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
 
 else_other: &otherElse
     card_type: 'Other'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
 
 else_jcb: &jcbElse
     card_type: 'JCB'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    card_number: 3566002020360505
+    #card_number: '3000000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
 
 else_jcb_3d: &jcbElse3D
     card_type: 'JCB'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
+    #card_number: '3000000000000004' is not working even according to 3D secure checklist
+    card_number: '3566002020360505'
+    #expiration_month: '07 - July' is not working. to get eciflag 07 and no errors month should be 01 - January
+    expiration_month: '01 - January'
+    #expiration_year: '2020' is not working. year should be current year + 1
+    expiration_year: '2013'
+    card_verification_number: '1234'
 
 else_solo: &soloElse
     card_type: 'Solo'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
-    issue_number: 'YOUR CREDENTIALS'
-    start_date_month: 'YOUR CREDENTIALS'
-    start_date_year: 'YOUR CREDENTIALS'
+    card_number: '6767705369846419'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+    issue_number: 1234
+    start_date_month: 12 - December
+    start_date_year: 2012
 
 else_switch_maestro: &switchMaestroElse
     card_type: 'Switch/Maestro'
-    card_number: 'YOUR CREDENTIALS'
-    expiration_month: 'YOUR CREDENTIALS'
-    expiration_year: 'YOUR CREDENTIALS'
-    card_verification_number: 'YOUR CREDENTIALS'
-    issue_number: 'YOUR CREDENTIALS'
-    start_date_month: 'YOUR CREDENTIALS'
-    start_date_year: 'YOUR CREDENTIALS'
+    card_number: '6331101999990016'
+    #card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+    issue_number: 2012
+    start_date_month: 12 - December
+    start_date_year: 2012
 
 #*********************************************
 #*              Payment Data                 *
@@ -690,9 +755,19 @@ shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-shipping_dhl: &dhl
+shipping_dhl:
     shipping_service: DHL
-    shipping_method: Ground
+    shipping_method: International Express
+
+# Data for a release after CE1.6.2
+#
+#shipping_dhl_usa: &dhl_usa
+#    shipping_service: DHL USA
+#    shipping_method: Express
+#
+#shipping_dhl_int: &dhl_int
+#    shipping_service: DHL
+#    shipping_method: Express easy
 
 #*********************************************
 #*      ConfigurableOptions For Products     *
@@ -808,7 +883,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2011
+            fieldsValue: 2012
     option_4:
         title: Custom Options Date & Time
         field_dropdown_1:
@@ -822,7 +897,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2011
+            fieldsValue: 2012
         field_dropdown_4:
             fieldType: dropdown
             fieldParameter: hour
@@ -907,8 +982,8 @@ order_physical:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
+    billing_addr_data: *billingReqUsa
+    shipping_addr_data: *shippingReqUsa
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -930,7 +1005,7 @@ order_virtual:
     store_view: Default Store View
     account_data:
         customer_group: General
-        customer_email: %noValue%
+        customer_email: new_customer_order_%randomize%@unknown-domain.com
     products_to_add:
         product_1: &product
             filter_id: %noValue%
@@ -947,13 +1022,13 @@ order_virtual:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
 
 #<------------New Customer, Check/Money, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_checkmoney_flatrate:
+order_newcustomer_checkmoney_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -966,11 +1041,15 @@ order_newcustmoer_checkmoney_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *checkMoney
     shipping_data: *flatRate
     gift_messages: %noValue%
+
+order_newcustomer_checkmoney_flatrate_france:
+    <<: *orderNewCustomerCheckFlatrateUsa
+    billing_addr_data: *billingReqFrance
 
 #<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
 order_newcustmoer_savedcc_flatrate:
@@ -985,7 +1064,7 @@ order_newcustmoer_savedcc_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *savedCCVisa
     shipping_data: *flatRate
@@ -1003,7 +1082,7 @@ order_newcustmoer_paypaldirectuk_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectUkMastercard
     shipping_data: *flatRate
@@ -1021,7 +1100,7 @@ order_newcustmoer_paypaldirect_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectMastercard
     shipping_data: *flatRate
@@ -1039,7 +1118,7 @@ order_newcustmoer_payflowpro_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *payfloProVisa
     shipping_data: *flatRate
@@ -1057,7 +1136,7 @@ order_newcustmoer_authorizenet_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *authorizeNetVisa
     shipping_data: *flatRate
@@ -1189,3 +1268,20 @@ gift_messages_with_empty_fields_expected:
             to: shipping_Steven shipping_Stevenson
             from: billing_Steven billing_Stevenson
             message: How you doing?
+
+#*************************************************
+#         3D-Secure Log Verification Data        *
+#*************************************************
+
+verification_3d_secure:
+    response:
+        Enrolled: Y
+        ASCUrl: url
+        Payload: value
+        ErrorNo: 0
+        ErrorDesc:
+        PAResStatus: Y
+        SignatureVerification: Y
+        EciFlag: "05"
+        Xid: xid_value
+        Cavv: cavv_value

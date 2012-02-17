@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,7 +35,6 @@
  */
 class Product_DuplicateTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Login to backend</p>
      */
@@ -59,6 +57,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * Test Realizing precondition for creating configurable product.
      *
      * @test
+     * @return array $attrData
+     * @group preConditions
      */
     public function createConfigurableAttribute()
     {
@@ -86,8 +86,11 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     /**
      * Test Realizing precondition for duplicating products.
      *
-     * @test
+     * @param $attrData
      * @depends createConfigurableAttribute
+     * @return array $productData
+     * @test
+     * @group preConditions
      */
     public function createProducts($attrData)
     {
@@ -123,6 +126,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
@@ -163,6 +168,8 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @test
@@ -195,46 +202,6 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating duplicated downloadable product</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
-     *
-     * @depends createConfigurableAttribute
-     * @depends createProducts
-     * @test
-     */
-    public function duplicateDownloadable($attrData, $productData)
-    {
-        //Data
-        $downloadable = $this->loadData('duplicate_downloadable',
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
-        $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_3']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $downloadable['general_sku']));
-        //Steps
-        $this->productHelper()->createProduct($downloadable, 'downloadable');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($productSearch);
-        $this->clickButton('duplicate');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_duplicated_product');
-        $this->productHelper()->verifyProductInfo($downloadable, array('general_sku', 'general_status'));
-    }
-
-    /**
      * <p>Creating grouped product with assosiated products</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add product' button;</p>
@@ -248,6 +215,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @param $productData
      * @depends createProducts
      *
      * @test
@@ -298,8 +266,10 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @param $data
+     * @param $productData
      * @depends createProducts
-     * @dataProvider dataBundle
+     * @dataProvider duplicateBundleDataProvider
      * @test
      */
     public function duplicateBundle($data, $productData)
@@ -332,7 +302,7 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($bundle, array('general_sku', 'general_status'));
     }
 
-    public function dataBundle()
+    public function duplicateBundleDataProvider()
     {
         return array(
             array('duplicate_fixed_bundle'),
@@ -360,9 +330,11 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @test
+     * @param $attrData
+     * @param $productData
      * @depends createConfigurableAttribute
      * @depends createProducts
+     * @test
      */
     public function duplicateConfigurable($attrData, $productData)
     {
@@ -393,5 +365,4 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->verifyProductInfo($configur,
                 array('general_sku', 'general_status', 'configurable_attribute_title'));
     }
-
 }

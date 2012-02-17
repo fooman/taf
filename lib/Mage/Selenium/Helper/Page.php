@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,17 +35,14 @@
  */
 class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Current page
-     *
      * @var string
      */
     protected $_currentPage = '';
 
     /**
      * Application helper instance
-     *
      * @var Mage_Selenium_Helper_Application
      */
     protected $_applicationHelper = null;
@@ -56,7 +52,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      *
      * @param Mage_Selenium_Helper_Application $applicationHelper Application helper instance
      *
-     * @return Mage_Selenium_AbstractHelper
+     * @return Mage_Selenium_Helper_Abstract
      */
     public function setApplicationHelper(Mage_Selenium_Helper_Application $applicationHelper)
     {
@@ -67,17 +63,20 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Return URL of a specified page
      *
+     * @param string $area
      * @param string $page Page identifier
+     *
+     * @throws Mage_Selenium_Exception
      *
      * @return string
      */
-    public function getPageUrl($page)
+    public function getPageUrl($area, $page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
-        $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_applicationHelper->getArea(), $page);
+        $pageData = $this->_config->getUimapHelper()->getUimapPage($area, $page);
 
         if (empty($pageData)) {
             throw new Mage_Selenium_Exception('Page data is not defined');
@@ -89,19 +88,20 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Return xpath which we need to click to open page
      *
+     * @param string $area
      * @param string $page Page identifier
+     *
+     * @throws Mage_Selenium_Exception
      *
      * @return string
      */
-    public function getPageClickXpath($page)
+    public function getPageClickXpath($area, $page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception('ApplicationHelper hasn\'t inited yet');
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
-        $pageData = $this->_config
-                            ->getUimapHelper()
-                                ->getUimapPage($this->_applicationHelper->getArea(), $page);
+        $pageData = $this->_config->getUimapHelper()->getUimapPage($area, $page);
 
         if (empty($pageData)) {
             throw new Mage_Selenium_Exception('Page data is not defined');
@@ -113,25 +113,27 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Convert page MCA to page ID
      *
+     * @param string area
      * @param string Page's mca
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
+     * @throws Mage_Selenium_Exception
+     *
      * @return string Page identifier
      */
-    public function getPageByMca($mca, $paramsDecorator = null)
+    public function getPageByMca($area, $mca, $paramsDecorator = null)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't been initialized yet");
         }
 
         return $this->_config
-                        ->getUimapHelper()
-                            ->getUimapPageByMca($this->_applicationHelper->getArea(), $mca, $paramsDecorator);
+            ->getUimapHelper()
+            ->getUimapPageByMca($area, $mca, $paramsDecorator);
     }
 
     /**
      * Returns PageID of current page
-     *
      * @return string
      */
     public function getCurrentPage()
@@ -142,11 +144,10 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Set PageID
      *
-     * param string $page
+     * @param string $page
      */
     public function setCurrentPage($page)
     {
         $this->_currentPage = $page;
     }
-
 }

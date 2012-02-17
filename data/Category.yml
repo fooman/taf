@@ -21,7 +21,7 @@
 # @package     selenium
 # @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
@@ -35,9 +35,22 @@ product_1: &product1
     category_products_search_position_to: %noValue%
     category_products_position: %noValue%
 
-category_all:
+root_category_required:
+    name: Root Category Required(%randomize%)
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price
+
+sub_category_required:
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price
+
+root_category_all: &categoryAll
     #General Information
-    name: Category
+    name: Category All Data(%randomize%)
     is_active: Yes
     url_key: %noValue%
     thumbnail_image: %noValue%
@@ -69,17 +82,6 @@ category_all:
     category_products_data:
         product_1: *product1
 
-sub_category_required:
-    name: Sub Category Required
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
-
-root_category_required:
-    name: Root Category Required
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
-
-default_category:
-    name: Default Category
+sub_category_all:
+    parent_category: Default Category
+    <<: *categoryAll

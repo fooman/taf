@@ -1,0 +1,83 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  configuration
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+browsers:
+    firefox: &chrome
+        name: Firefox
+        browser: '*chrome'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    iexplore: &iexplore
+        name: Internet Explorer
+        browser: '*iexplore'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    googlechrome: &googlechrome
+        name: Google Chrome
+        browser: '*googlechrome'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 40000
+    default: *chrome
+default:
+    cache:
+        frontend:
+            name: 'core'
+            options:
+                caching: false
+                cache_id_prefix: 'selenium_'
+                automatic_serialization: true
+        backend:
+            name: 'file'
+            options:
+            cache_dir: 'tmp/cache'
+    uimaps:
+        basePath: uimaps
+    applications:
+        magento: &magento
+            adminLogin: admin
+            adminPassword: admin
+            storeName: Store Name
+            areas:
+                admin:
+                    url: 'http://www.localhost.com/magento/admin/'
+                    uimap_path: 'admin'
+                frontend:
+                    url: 'http://www.localhost.com/magento/'
+                    uimap_path: 'frontend'
+                paypal-sandbox:
+                    url: 'https://www.sandbox.paypal.com/'
+                    uimap_path: 'third-party/paypal-sandbox'
+                paypal-developer:
+                    url: 'https://developer.paypal.com/'
+                    uimap_path: 'third-party/paypal-developer'
+        default: *magento

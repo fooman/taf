@@ -35,7 +35,7 @@ manage_customer_tax_class:
         form: &searchCustomerTaxClassGrid
             fieldsets:
                 -
-                    manage_customer_tax_class:
+                    manage_tax_customer_class:
                         xpath: //div[@id='taxClassGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
@@ -45,7 +45,7 @@ manage_customer_tax_class:
                         pageelements:
                             grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
         buttons:
-            add_new: //button[span='Add New']
+            add_customer_class: //button[span='Add New']
         messages:
             success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
             success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
@@ -66,7 +66,7 @@ create_customer_tax_class:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_class: //button[span='Save Class']
+            save_customer_class: //button[span='Save Class']
         messages: &newCustomerTaxClassMsg
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
@@ -90,8 +90,8 @@ edit_customer_tax_class:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            delete_class: //button[span='Delete Class']
-            save_class: //button[span='Save Class']
+            delete_customer_class: //button[span='Delete Class']
+            save_customer_class: //button[span='Save Class']
         messages: *newCustomerTaxClassMsg
 
 # Product Tax Class and related pages
@@ -104,7 +104,7 @@ manage_product_tax_class:
         form: &searchProductTaxClassGrid
             fieldsets:
                 -
-                    manage_product_tax_class:
+                    manage_tax_product_class:
                         xpath: //div[@id='taxClassGrid']
                         fields:
                             product_class_name: //input[@id='taxClassGrid_filter_class_name']
@@ -114,7 +114,7 @@ manage_product_tax_class:
                         pageelements:
                             grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
         buttons:
-            add_new: //button[span='Add New']
+            add_product_class: //button[span='Add New']
         messages:
             success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
             success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
@@ -135,7 +135,7 @@ create_product_tax_class:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_class: //button[span='Save Class']
+            save_product_class: //button[span='Save Class']
         messages: &newProductTaxClassMsg
             empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
@@ -159,8 +159,8 @@ edit_product_tax_class:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            delete_class: //button[span='Delete Class']
-            save_class: //button[span='Save Class']
+            delete_product_class: //button[span='Delete Class']
+            save_product_class: //button[span='Save Class']
         messages: *newProductTaxClassMsg
 
 # Manage Tax Rate and related pages
@@ -173,7 +173,7 @@ manage_tax_zones_and_rates:
         form: &searchTaxRatesGrid
             fieldsets:
                 -
-                    manage_tax_rates:
+                    manage_tax_rate:
                         xpath: //div[@id='tax_rate_grid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
@@ -189,7 +189,7 @@ manage_tax_zones_and_rates:
                         pageelements:
                             grid_head: //*[@id='tax_rate_grid_table']/thead/tr[@class='headings']
         buttons:
-            add_new_tax_rate: //button[span='Add New Tax Rate']
+            add_rate: //button[span='Add New Tax Rate']
         messages:
             success_saved_tax_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rate has been saved.')]
             success_deleted_tax_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rate has been deleted.')]
@@ -236,7 +236,7 @@ create_tax_rate:
 
 # 'Edit Tax Rate' Page
 edit_tax_rate:
-    mca: tax_rate/edit/rate/%id%/
+    mca: tax_rate/edit/rate/%rate%/
     title: %elementTitle% / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
     uimap:
         form: &editTaxRatesForm
@@ -301,7 +301,7 @@ manage_tax_rule:
         form: &searchTaxRulesGrid
             fieldsets:
                 -
-                    manage_tax_rules:
+                    manage_tax_rule:
                         xpath: //div[@id='taxRuleGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
@@ -318,8 +318,9 @@ manage_tax_rule:
                             filter_sort_order: //input[@id='taxRuleGrid_filter_position']
                         pageelements:
                             grid_head: //*[@id='taxRuleGrid_table']/thead/tr[@class='headings']
+                            rules_table: //*[@id='taxRuleGrid_table']/tbody
         buttons:
-            add_new_tax_rule: //button[span='Add New Tax Rule']
+            add_rule: //button[span='Add New Tax Rule']
         messages:
             success_saved_tax_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rule has been saved.')]
             success_deleted_tax_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rule has been deleted.')]
@@ -356,7 +357,7 @@ create_tax_rule:
 
 # Edit Tax Rule page
 edit_tax_rule:
-    mca: tax_rule/edit/rule/%id%/
+    mca: tax_rule/edit/rule/%rule%/
     title: %elementTitle% / Manage Tax Rules / Tax / Sales / Magento Admin
     uimap:
         form: &editTaxRuleForm

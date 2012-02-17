@@ -19,24 +19,14 @@
 #
 # @category    tests
 # @package     selenium
-# @subpackage  configuration
+# @subpackage  test-data
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-browsers:
-    chrome: &chrome
-        browser: '*chrome'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    default: *chrome
-applications:
-    magento: &magento
-        frontendUrl: http://www.localhost.com/magento/
-        adminUrl: http://www.localhost.com/magento/admin/
-        adminLogin: admin
-        adminPassword: admin
-    default: *magento
+
+paas_export_setting: &export
+    script_url: http://localhost/export.php
+    exported_prefix: imported-
+    import_fail_message: Failed to import #

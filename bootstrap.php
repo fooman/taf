@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -28,7 +27,7 @@
  */
 define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
-        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshots'));
+        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshot'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
             realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'),
@@ -41,4 +40,4 @@ Mage_Selenium_Autoloader::register();
 
 require_once 'functions.php';
 
-Mage_Selenium_TestConfiguration::initInstance();
+Mage_Selenium_TestConfiguration::getInstance();

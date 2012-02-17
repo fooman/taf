@@ -37,32 +37,32 @@ compare_products:
                         xpath: //table[@id='product_comparison']
                         buttons:
                             add_to_cart: //td[h2='%productName%']//button[span='Add to Cart']
-                            ex_add_to_cart: //tbody[3]//td[%columnIndex%]/p/button
+#                            ex_add_to_cart: //tbody[3]//td[%columnIndex%]/p/button
                         links:
                             product_title: //a[text()='%productName%']
                             add_to_whishlist: //td[h2='%productName%']//a[text()='Add to Wishlist']
-                            ex_add_to_whishlist: //tbody[3]//td[%columnIndex%]//a[text()='Add to Wishlist']
+#                            ex_add_to_whishlist: //tbody[3]//td[%columnIndex%]//a[text()='Add to Wishlist']
                             remove_item: //td[%columnIndex%]/a[@title='Remove This Item']
                         pageelements:
-                            verify_price_regular: //td[h2='%productName%']//span[@class='regular-price']
-                            verify_product_price_as_low_as: //td[h2='%productName%']//span[@class='minimal-price-link']/span[@class='price']
-                            verify_price_old: //td[h2='%productName%']//p[@class='old-price']/span[@class='price']
-                            verify_price_special: //td[h2='%productName%']//p[@class='special-price']/span[@class='price']
-                            verify_price_excluding_tax: //td[h2='%productName%' and not(*/p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
-                            verify_price_including_tax: //td[h2='%productName%' and not(*/p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
-                            verify_price_special_excluding_tax: //td[h2='%productName%']//p[@class='special-price']//span[@class='price-excluding-tax']/span[@class='price']
-                            verify_price_special_inlcuding_tax: //td[h2='%productName%']//p[@class='special-price']//span[@class='price-including-tax']/span[@class='price']
-                            verify_ex_price_regular: //tbody[3]//td[%columnIndex%]//span[@class='regular-price']
-                            verify_ex_product_price_as_low_as: //tbody[3]//td[%columnIndex%]//span[@class='minimal-price-link']/span[@class='price']
-                            verify_ex_price_old: //tbody[3]//td[%columnIndex%]//p[@class='old-price']/span[@class='price']
-                            verify_ex_price_special: //tbody[3]//td[%columnIndex%]//p[@class='special-price']/span[@class='price']
-                            verify_ex_price_excluding_tax: //tbody[3]//td[%columnIndex%]//div[@class='price-box' and not(p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
-                            verify_ex_price_including_tax: //tbody[3]//td[%columnIndex%]//div[@class='price-box' and not(p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
-                            verify_ex_price_special_excluding_tax: //tbody[3]//td[%columnIndex%]//p[@class='special-price']//span[@class='price-excluding-tax']/span[@class='price']
-                            verify_ex_price_special_inlcuding_tax: //tbody[3]//td[%columnIndex%]//p[@class='special-price']//span[@class='price-including-tax']/span[@class='price']
-                            product_attribute_names: //tbody[2]/tr
-                            product_attribute_value: //tbody[2]/tr[th='%attrName%']/td[%columnIndex%]
-                            product_names: //tbody[1]//td
+#                            verify_price_regular: //td[h2='%productName%']//span[@class='regular-price']
+#                            verify_product_price_as_low_as: //td[h2='%productName%']//span[@class='minimal-price-link']/span[@class='price']
+#                            verify_price_old: //td[h2='%productName%']//p[@class='old-price']/span[@class='price']
+#                            verify_price_special: //td[h2='%productName%']//p[@class='special-price']/span[@class='price']
+#                            verify_price_excluding_tax: //td[h2='%productName%' and not(*/p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
+#                            verify_price_including_tax: //td[h2='%productName%' and not(*/p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
+#                            verify_price_special_excluding_tax: //td[h2='%productName%']//p[@class='special-price']//span[@class='price-excluding-tax']/span[@class='price']
+#                            verify_price_special_inlcuding_tax: //td[h2='%productName%']//p[@class='special-price']//span[@class='price-including-tax']/span[@class='price']
+#                            verify_ex_price_regular: //tbody[3]//td[%columnIndex%]//span[@class='regular-price']
+#                            verify_ex_product_price_as_low_as: //tbody[3]//td[%columnIndex%]//span[@class='minimal-price-link']/span[@class='price']
+#                            verify_ex_price_old: //tbody[3]//td[%columnIndex%]//p[@class='old-price']/span[@class='price']
+#                            verify_ex_price_special: //tbody[3]//td[%columnIndex%]//p[@class='special-price']/span[@class='price']
+#                            verify_ex_price_excluding_tax: //tbody[3]//td[%columnIndex%]//div[@class='price-box' and not(p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
+#                            verify_ex_price_including_tax: //tbody[3]//td[%columnIndex%]//div[@class='price-box' and not(p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
+#                            verify_ex_price_special_excluding_tax: //tbody[3]//td[%columnIndex%]//p[@class='special-price']//span[@class='price-excluding-tax']/span[@class='price']
+#                            verify_ex_price_special_inlcuding_tax: //tbody[3]//td[%columnIndex%]//p[@class='special-price']//span[@class='price-including-tax']/span[@class='price']
+                            product_attribute_names: //tr[th/span/@class]
+                            product_attribute_value: /tr[th='%attrName%']/td[%columnIndex%]
+                            product_names: //td[h2[@class='product-name']]
         buttons:
             close_window: //button[@title='Close Window']
         links:

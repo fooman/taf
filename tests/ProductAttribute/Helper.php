@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -36,7 +35,6 @@
  */
 class ProductAttribute_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Action_helper method for Create Attribute
      *
@@ -63,16 +61,13 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Attribute is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('attributes_grid_head', false);
-        if (array_key_exists('Attribute Code', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Attribute Code'] . ']');
-            $this->addParameter('attribute_code', $text);
-        }
+        $this->assertNotNull($xpathTR, 'Attribute is not found');
+        $cellId = $this->getColumnIdByName('Attribute Code');
+        $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $names['Attribute Code'] . ']');
+        $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
@@ -107,7 +102,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             }
         }
         //Steps. Сlick 'Create New Attribute' button, select opened window.
-        $this->clickButton('create_new_attribute', FALSE);
+        $this->clickButton('create_new_attribute', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
@@ -116,8 +111,10 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrData, 'manage_lables_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
-        $this->clickButton('save_attribute');
-//        $this->saveForm('save_attribute', false);
+        $this->addParameter('attributeId', 0);
+        $this->saveForm('save_attribute', false);
+//        $this->clickButton('save_attribute', false);
+//        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 
     /**
@@ -127,7 +124,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param string $fieldsetName
      * @param string $action
      */
-    public function storeViewTitles($attrData, $fieldsetName='manage_titles', $action ='fill')
+    public function storeViewTitles($attrData, $fieldsetName = 'manage_titles', $action = 'fill')
     {
         $name = 'store_view_titles';
         if (isset($attrData['admin_title'])) {
@@ -177,7 +174,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      * @param array $attrData
      * @param string $action
      */
-    public function attributeOptions($attrData, $action='fill')
+    public function attributeOptions($attrData, $action = 'fill')
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
 
@@ -186,17 +183,17 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             $num = 1;
         }
 
-        foreach ($attrData as $f_key => $d_value) {
-            if (preg_match('/^option_/', $f_key) and is_array($attrData[$f_key])) {
+        foreach ($attrData as $fKey => $dValue) {
+            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
                 if ($this->isElementPresent($fieldSetXpath)) {
                     $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
 
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
-                            $this->clickButton('add_option', FALSE);
-                            $this->storeViewTitles($attrData[$f_key], 'manage_options');
-                            $this->fillForm($attrData[$f_key], 'manage_lables_options');
+                            $this->clickButton('add_option', false);
+                            $this->storeViewTitles($attrData[$fKey], 'manage_options');
+                            $this->fillForm($attrData[$fKey], 'manage_lables_options');
                             break;
                         case 'verify':
                             if ($option > 0) {
@@ -204,9 +201,9 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                                         . "//tr[contains(@class,'option-row')][" . $num
                                         . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                                $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
+                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_lables_options'),
                                         $this->getParsedMessages());
-                                $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
+                                $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
                                 $num++;
                                 $option--;
                             }
@@ -226,10 +223,10 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function defineAttributeId(array $searchData)
     {
         $this->navigate('manage_attributes');
+        $searchData = $this->arrayEmptyClear($searchData);
         $attrXpath = $this->search($searchData);
         $this->assertNotEquals(null, $attrXpath);
 
         return $this->defineIdFromTitle($attrXpath);
     }
-
 }

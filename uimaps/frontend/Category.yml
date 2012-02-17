@@ -113,10 +113,11 @@ category_page_before_reindex:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
         messages: &categoryPageMessages
-            success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
-            invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
-            long_email: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"
-            reqired_field: //div[@class='validation-advice' and text()='This is a required field.']
+            newsletter_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            newsletter_reqired_field: //*[@id='advice-required-entry-newsletter']
+            newsletter_success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
+            newsletter_email_used: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: This email address is already assigned to another user.')]"
+            newsletter_long_email: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?

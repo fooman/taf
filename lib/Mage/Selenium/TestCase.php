@@ -478,7 +478,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertTrue($condition, $message = '')
     {
-        $message = Mage_Selenium_TestCase::implode_message($message);
+        $message = self::messagesToString($message);
 
         if (is_object($condition)) {
             $condition = (false === $condition->hasError());
@@ -498,7 +498,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertFalse($condition, $message = '')
     {
-        $message = Mage_Selenium_TestCase::implode_message($message);
+        $message = self::messagesToString($message);
 
         if (is_object($condition)) {
             $condition = (false === $condition->hasError());
@@ -986,7 +986,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($xpath && $this->isElementPresent($xpath)) {
             return array("success" => true);
         }
-        return array("success" => false, "xpath" => $xpath, "found" => Mage_Selenium_TestCase::implode_message($this->getMessagesOnPage()));
+        return array("success" => false, "xpath" => $xpath, "found" => self::messagesToString($this->getMessagesOnPage()));
     }
 
     /**
@@ -2879,11 +2879,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Returns a string representation of the messages.
+     *
      * @static
      *
-     * @param $message string or array containing the message to implode
+     * @param array|string $message
+     *
+     * @return string
      */
-    private static function implode_message($message)
+    private static function messagesToString($message)
     {
         if (is_array($message) && $message) {
             $message = implode("\n", call_user_func_array('array_merge', $message));

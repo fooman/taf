@@ -32,7 +32,7 @@
 customer_account_register:
     first_name: First name
     last_name: Last name
-    email: test_frontend_%randomize%@unknown-domain.com
+    email: test_frontend_%randomize%@example.com
     password: passw0rd
     password_confirmation: passw0rd
 
@@ -57,7 +57,7 @@ generic_customer_account:
     middle_name: %noValue%
     last_name: Last Name
     suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
+    email: test_admin_%randomize%@example.com
     date_of_birth: %noValue%
     tax_vat_number: %noValue%
     gender: %noValue%
@@ -74,7 +74,7 @@ all_fields_customer_account:
     middle_name: Middle Name
     last_name: Last Name
     suffix: Suffix
-    email: test_admin_%randomize%@unknown-domain.com
+    email: test_admin_%randomize%@example.com
     date_of_birth: 12/12/1983
     tax_vat_number: 000000
     gender: Male

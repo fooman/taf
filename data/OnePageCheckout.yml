@@ -183,7 +183,7 @@ billing_with_register_req_physical_withshipping: &billingWithRegisterReqWithShip
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -203,7 +203,7 @@ billing_with_register_req_physical: &billingWithRegisterReq
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -223,7 +223,7 @@ billing_with_register_req_virtual: &billingWithRegisterReqVirtual
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -242,7 +242,7 @@ billing_with_register_long_values: &billingWithRegisterLongValues
     billing_first_name: %longValue255%
     billing_last_name: %longValue255%
     billing_company: %longValue255%
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_street_address_1: %longValue255%
     billing_street_address_2: %longValue255%
     billing_city: %longValue255%
@@ -261,7 +261,7 @@ billing_with_register_long_values: &billingWithRegisterSpecialValues
     billing_first_name: %specialValue32%
     billing_last_name: %specialValue32%
     billing_company: %specialValue32%
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_street_address_1: %specialValue32%
     billing_street_address_2: %specialValue32%
     billing_city: %specialValue32%
@@ -279,7 +279,7 @@ billing_with_register_withshipping_usa: &billingWithRegisterWithShippingUsa
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -299,7 +299,7 @@ billing_with_register_withshipping_france: &billingWithRegisterWithShippingFranc
     billing_address_choice: New Address
     billing_first_name: Jean
     billing_last_name: Reno
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: 13, rue Jean Vilar
     billing_street_address_2: %noValue%
@@ -320,7 +320,7 @@ billing_guest_req_virtual: &billingGuestReqVirtual
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -336,7 +336,7 @@ billing_guest_req_physical_withshipping: &guestBillingReqWithShipping
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -354,7 +354,7 @@ billing_guest_withshipping_usa: &guestBillingWithShippingUsa
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
     billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: street address 1(billing.req)
     billing_street_address_2: %noValue%
@@ -372,7 +372,7 @@ billing_guest_withshipping_france: &guestBillingWithShippingFrance
     billing_address_choice: New Address
     billing_first_name: Jean
     billing_last_name: Reno
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_email: onepage_checkout_%randomize%@example.com
     billing_company: %noValue%
     billing_street_address_1: 13, rue Jean Vilar
     billing_street_address_2: %noValue%

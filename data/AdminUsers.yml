@@ -39,7 +39,7 @@ generic_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: alias@unknown-domain.com
+    email: alias@example.com
     password: passw0rd
     password_confirmation: passw0rd
     this_acount_is: %noValue%
@@ -51,7 +51,7 @@ search_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: alias@unknown-domain.com
+    email: alias@example.com
     status: %noValue%
 
 disable_admin_captcha:

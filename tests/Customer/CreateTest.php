@@ -275,7 +275,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@unknown-domain.com')
+            array('te@st@example.com')
         );
     }
 

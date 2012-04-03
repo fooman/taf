@@ -263,7 +263,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@unknown-domain.com')
+            array('te@st@example.com')
         );
     }
 

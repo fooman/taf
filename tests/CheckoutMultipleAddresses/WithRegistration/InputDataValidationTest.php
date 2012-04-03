@@ -428,8 +428,8 @@ class CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends
         return array(
             array( 'invalid'),
             array( 'test@invalidDomain'),
-            array('te@st@unknown-domain.com'),
-            array('.test@unknown-domain.com'),
+            array('te@st@example.com'),
+            array('.test@example.com'),
         );
     }
 

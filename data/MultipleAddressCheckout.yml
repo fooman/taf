@@ -81,7 +81,7 @@ general_shipping_address: &generalShippingAddress
 general_account_info: &generalAccountInfo
     first_name: First Name (%randomize%)
     last_name: Last Name (%randomize%)
-    email: %randomize%@unknown-domain.com
+    email: %randomize%@example.com
     password: passw0rd
     password_confirmation: passw0rd
     company: Company (%randomize%)

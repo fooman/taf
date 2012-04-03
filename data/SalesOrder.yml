@@ -1005,7 +1005,7 @@ order_virtual:
     store_view: Default Store View
     account_data:
         customer_group: General
-        customer_email: new_customer_order_%randomize%@unknown-domain.com
+        customer_email: new_customer_order_%randomize%@example.com
     products_to_add:
         product_1: &product
             filter_id: %noValue%

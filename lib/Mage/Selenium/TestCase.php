@@ -1375,7 +1375,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
-     * Get MCA-part of page URL
+     * Get Module-Controller-Action-part of page URL
      * @static
      *
      * @param array $areasConfig Full area config

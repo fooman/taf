@@ -28,7 +28,7 @@
 browsers:
     firefox: &chrome
         name: Firefox
-        browser: '*chrome'
+        browser: '*firefox'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false

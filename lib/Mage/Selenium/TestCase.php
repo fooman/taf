@@ -1546,6 +1546,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $fileName = $this->testId;
         }
         $file = fopen(SELENIUM_TESTS_SCREENSHOTDIR . DIRECTORY_SEPARATOR . $fileName . '.html', 'a+');
+        fputs($file,'<!-- Location = '.$this->_testConfig->driver->getLocation().' -->' . PHP_EOL);
         fputs($file, $this->_testConfig->driver->getHtmlSource());
         fflush($file);
         fclose($file);

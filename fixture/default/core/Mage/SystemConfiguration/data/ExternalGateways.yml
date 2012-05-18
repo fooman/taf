@@ -1,0 +1,43 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+shipping_gateways:
+    ups_url: http://www.ups.com/using/services/rave/qcostcgi.cgi
+    upsxml_url: https://onlinetools.ups.com/ups.app/xml/Rate
+    usps_url: http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=%3C?xml%20version=%221.0%22%20encoding=%22UTF-8%22?%3E%3CRateV4Request%20USERID=%22213MAGEN6752%22%3E%3CRevision%3E2%3C/Revision%3E%3CPackage%20ID=%220%22%3E%3CService%3EALL%3C/Service%3E%3CZipOrigination%3E90034%3C/ZipOrigination%3E%3CZipDestination%3E90064%3C/ZipDestination%3E%3CPounds%3E1%3C/Pounds%3E%3COunces%3E2.2%3C/Ounces%3E%3CContainer%3EVARIABLE%3C/Container%3E%3CSize%3EREGULAR%3C/Size%3E%3CMachinable%3Etrue%3C/Machinable%3E%3C/Package%3E%3C/RateV4Request%3E
+    fedex_url: http://www.fedex.com/ratetools/RateToolsMain.do
+    dhl_url: https://eCommerce.airborne.com/ApiLandingTest.asp
+
+payment_gateways:
+    3Dsecure_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
+    authorizenet_url: https://test.authorize.net/gateway/transact.dll
+    paypaldirect_url: https://api-3t.sandbox.paypal.com/nvp
+    paypaldirectuk_url: https://pilot-payflowpro.paypal.com/transaction
+    payflowpro_url: https://pilot-payflowpro.paypal.com/transaction
+
+#    paypal_sandbox: https://www.sandbox.paypal.com
+#    paypal_developer: https://developer.paypal.com/

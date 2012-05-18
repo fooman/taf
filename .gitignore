@@ -1,6 +1,6 @@
-config/config.yml
 config/local.yml
+config/config.yml
 phpunit.xml
-tmp/*
+var/*
 /.idea
 /nbproject

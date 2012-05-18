@@ -1,0 +1,391 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Test data for Multiple Addresses Checkout(Frontend)
+################################################################################
+#                                                                              #
+#                                 Address Data                                 #
+#                                                                              #
+################################################################################
+register_data_special:
+    first_name: %specialValue15%
+    last_name: %specialValue15%
+    email: multiple_checkout_%randomize%@unknown-domain.com
+    sign_up_newsletter: No
+    company: %specialValue15%
+    telephone: %specialValue15%
+    street_address_1: %specialValue15%
+    street_address_2: %specialValue15%
+    city: %specialValue15%
+    state: %noValue%
+    region: %specialValue15%
+    zip_code: %specialValue15%
+    country: Ukraine
+    password: 123123q
+    password_confirmation: 123123q
+
+register_data_long:
+    first_name: %longValue255%
+    last_name: %longValue255%
+    email: multiple_checkout_%randomize%@unknown-domain.com
+    sign_up_newsletter: No
+    company: %longValue255%
+    telephone: %longValue255%
+    street_address_1: %longValue255%
+    street_address_2: %longValue255%
+    city: %longValue255%
+    state: %noValue%
+    region: %longValue255%
+    zip_code: %longValue255%
+    country: Ukraine
+    password: 123123q
+    password_confirmation: 123123q
+
+special_symbols:
+    first_name: %specialValue15%
+    last_name: %specialValue15%
+    company: %specialValue15%
+    street_address_1: %specialValue15%
+    street_address_2: %specialValue15%
+    city: %specialValue15%
+    country: Ukraine
+    state: %noValue%
+    region: %specialValue15%
+    zip_code: %specialValue15%
+    telephone: %specialValue15%
+    fax: %specialValue15%
+
+long_values:
+    first_name: %longValue255%
+    last_name: %longValue255%
+    company: %longValue255%
+    street_address_1: %longValue255%
+    street_address_2: %longValue255%
+    city: %longValue255%
+    country: Ukraine
+    state: %noValue%
+    region: %longValue255%
+    zip_code: %longValue255%
+    telephone: %longValue255%
+    fax: %longValue255%
+
+shipping_france_1: &shipping_france_1
+    first_name: Michèle
+    last_name: St-Pierre
+    company: %noValue%
+    street_address_1: 10, rue Jean Vilar
+    street_address_2: %noValue%
+    city: Bergerac
+    country: France
+    state: Dordogne
+    region: %noValue%
+    zip_code: 24100
+    telephone: 05 53 57 11 61
+    fax: %noValue%
+
+shipping_france_2: &shipping_france_2
+    first_name: Jean
+    last_name: Reno
+    company: %noValue%
+    street_address_1: 13, rue Jean Vilar
+    street_address_2: %noValue%
+    city: Bergerac
+    country: France
+    state: Dordogne
+    region: %noValue%
+    zip_code: 24100
+    telephone: 06 88 07 44 27
+    fax: %noValue%
+################################################################################
+#                                                                              #
+#                                 Checkout Method                              #
+#                                                                              #
+################################################################################
+multiple_register: &register
+    checkout_method: register
+
+multiple_login: &login
+    checkout_method: login
+    additional_data:
+        email: %noValue%
+        password: 123123q
+################################################################################
+#                                                                              #
+#                    Order Data with Register Customer                         #
+#                                                                              #
+################################################################################
+multiple_with_register:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    checkout_as_customer: *register
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        email: multiple_checkout_%randomize%@unknown-domain.com
+        sign_up_newsletter: No
+        company: %noValue%
+        telephone: 732-757-2923
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+        password: 123123q
+        password_confirmation: 123123q
+    shipping_data: &shipping_data
+        address_data_1:
+            address:
+                first_name: John
+                last_name: Doe
+                company: %noValue%
+                telephone: 732-757-2923
+                fax: %noValue%
+                street_address_1: street_address_1
+                street_address_2: suite 1
+                city: Los Angelos
+                state: California
+                region: %noValue%
+                zip_code: 90064
+                country: United States
+            products:
+                product_1:
+                    product_name: %product_1%
+                    product_qty: 2
+            shipping:
+                shipping_service: Flat Rate
+                shipping_method: Fixed
+        address_data_2:
+            address:
+                first_name: Chuck
+                last_name: Norris
+                company: %noValue%
+                telephone: 530-918-3581
+                fax: %noValue%
+                street_address_1: street_address_2
+                street_address_2: suite 2
+                city: Culver City
+                state: California
+                region: %noValue%
+                zip_code: 90232
+                country: United States
+            products:
+                product_1:
+                    product_name: %product_2%
+                    product_qty: 2
+            shipping:
+                shipping_service: Flat Rate
+                shipping_method: Fixed
+    payment_data: &payment_data
+        billing_address:
+                first_name: Charlie
+                last_name: Pane
+                company: %noValue%
+                telephone: 732-757-2923
+                fax: %noValue%
+                street_address_1: street_address_3
+                street_address_2: suite 3
+                city: Los Angelos
+                state: California
+                region: %noValue%
+                zip_code: 90064
+                country: United States
+        payment:
+            payment_method: Check / Money order
+
+multiple_with_register_france:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    checkout_as_customer: *register
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        email: multiple_checkout_%randomize%@unknown-domain.com
+        sign_up_newsletter: No
+        company: %noValue%
+        telephone: 732-757-2923
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+        password: 123123q
+        password_confirmation: 123123q
+    shipping_data: &shipping_data_france
+        address_data_1:
+            address: *shipping_france_1
+            products:
+                product_1:
+                    product_name: %product_1%
+                    product_qty: 2
+            shipping:
+                shipping_service: Flat Rate
+                shipping_method: Fixed
+        address_data_2:
+            address: *shipping_france_2
+            products:
+                product_1:
+                    product_name: %product_2%
+                    product_qty: 2
+            shipping:
+                shipping_service: Flat Rate
+                shipping_method: Fixed
+    payment_data:
+        billing_address:
+                first_name: Charlie
+                last_name: Pane
+                company: %noValue%
+                telephone: 732-757-2923
+                fax: %noValue%
+                street_address_1: street_address_3
+                street_address_2: suite 3
+                city: Los Angelos
+                state: California
+                region: %noValue%
+                zip_code: 90064
+                country: United States
+        payment:
+            payment_method: Check / Money order
+################################################################################
+#                                                                              #
+#               Order Data for Signed in  Customer                             #
+#                                                                              #
+################################################################################
+multiple_with_signed_in:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        company: %noValue%
+        telephone: 732-757-2923
+        fax: %noValue%
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+    shipping_data: *shipping_data
+    payment_data: *payment_data
+
+multiple_with_signed_in_france:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        company: %noValue%
+        telephone: 732-757-2923
+        fax: %noValue%
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+    shipping_data: *shipping_data_france
+    payment_data: *payment_data
+################################################################################
+#                                                                              #
+#               Order Data with logging Customer                               #
+#                                                                              #
+################################################################################
+multiple_with_login:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    checkout_as_customer: *login
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        company: %noValue%
+        telephone: 732-757-2923
+        fax: %noValue%
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+    shipping_data: *shipping_data
+    payment_data: *payment_data
+
+multiple_with_login_france:
+    products_to_add:
+        product_1:
+            product_name: %product_1%
+            options: %option_product_1%
+        product_2:
+            product_name: %product_2%
+            options: %option_product_2%
+    checkout_as_customer: *login
+    general_customer_data:
+        first_name: %randomize%_first_name
+        last_name: %randomize%_last_name
+        company: %noValue%
+        telephone: 732-757-2923
+        fax: %noValue%
+        street_address_1: street_address_%randomize%
+        street_address_2: suite %randomize%
+        city: Los Angelos
+        state: California
+        region: %noValue%
+        zip_code: 90064
+        country: United States
+    shipping_data: *shipping_data_france
+    payment_data: *payment_data

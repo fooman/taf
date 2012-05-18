@@ -21,34 +21,51 @@
 # @package     selenium
 # @subpackage  configuration
 # @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+################################################################################
+#                                                                              #
+#                      Browsers for running tests                              #
+#                                                                              #
+################################################################################
 browsers:
-    firefox: &firefox
-        name: Firefox
-        browser: '*firefox'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    iexplore: &iexplore
-        name: Internet Explorer
-        browser: '*iexplore'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
     googlechrome: &googlechrome
-        name: Google Chrome
-        browser: '*googlechrome'
-        host: 127.0.0.1
-        port: 4444
-        doNotKillBrowsers: false
-        browserTimeoutPeriod: 40000
-    default: *chrome
-default:
+         name: 'Google Chrome'
+         browser: '*googlechrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 40
+    firefox: &firefox
+         name: 'Firefox'
+         browser: '*chrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 40
+    iexplorer: &iexplorer
+         name: 'Internet Explorer'
+         browser: '*iexplore'
+         host: 'localhost'
+         port: 4444
+         timeout: 60
+    default: *firefox
+################################################################################
+#                                                                              #
+#                     Framework configuration                                  #
+#                                                                              #
+################################################################################
+framework:
+    fixture_base_path: 'fixture'
+    testsuite_base_path: 'testsuite'
+    #work only if tests are run for single browser
+    shareSession: true
+    coverageScriptUrl: ''
+    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
+    captureScreenshotOnFailure: true
+    saveHtmlPageOnFailure: false
+    load_all_uimaps: true
+    load_all_data: true
     cache:
         frontend:
             name: 'core'
@@ -59,25 +76,57 @@ default:
         backend:
             name: 'file'
             options:
-            cache_dir: 'tmp/cache'
-    uimaps:
-        basePath: uimaps
-    applications:
-        magento: &magento
-            adminLogin: admin
-            adminPassword: admin
-            storeName: Store Name
-            areas:
-                admin:
-                    url: 'http://www.localhost.com/magento/admin/'
-                    uimap_path: 'admin'
-                frontend:
-                    url: 'http://www.localhost.com/magento/'
-                    uimap_path: 'frontend'
-                paypal-sandbox:
-                    url: 'https://www.sandbox.paypal.com/'
-                    uimap_path: 'third-party/paypal-sandbox'
-                paypal-developer:
-                    url: 'https://developer.paypal.com/'
-                    uimap_path: 'third-party/paypal-developer'
-        default: *magento
+                cache_dir: 'var/cache'
+################################################################################
+#                                                                              #
+#                  Applications for running tests                              #
+#                                                                              #
+################################################################################
+applications:
+    mage: &mage
+        fallbackOrderFixture: 'default'
+        fallbackOrderHelper: 'Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin_login'
+                password: 'admin_password'
+            frontend:
+                url: 'http://www.localhost.com/magento/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: &paypalSandbox
+                url: 'https://www.sandbox.paypal.com/'
+                base_page_uimap: 'paypal_sandbox'
+                uimap_path: 'paypal_sandbox'
+                login: 'paypal_sandbox_login'
+                password: 'paypal_sandbox_password'
+            paypal_developer: &paypalDeveloper
+                url: 'https://developer.paypal.com/'
+                base_page_uimap: 'paypal_developer_home'
+                uimap_path: 'paypal_developer'
+                login: 'paypal_developer_login'
+                password: 'paypal_developer_password'
+    other_app: &other_app
+        fallbackOrderFixture: 'other_app, default'
+        fallbackOrderHelper: 'Other_app, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento_enterprise/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin_login'
+                password: 'admin_password'
+            frontend:
+                url: 'http://www.localhost.com/magento_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *mage

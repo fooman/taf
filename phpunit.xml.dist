@@ -27,9 +27,9 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<phpunit bootstrap="bootstrap.php"
-         backupGlobals="true"
+<phpunit backupGlobals="true"
          backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
          cacheTokens="true"
          colors="true"
          convertErrorsToExceptions="true"
@@ -48,14 +48,18 @@
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">tests/</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage</directory>
         </testsuite>
     </testsuites>
     <logging>
-        <log type="json" target="./tmp/logfile.json"/>
-        <log type="tap" target="./tmp/logfile.tap"/>
-        <log type="junit" target="./tmp/logfile.xml" logIncompleteSkipped="false"/>
-        <log type="testdox-html" target="./tmp/testdox.html"/>
-        <log type="testdox-text" target="./tmp/testdox.txt"/>
+        <log type="json" target="./var/logs/logfile.json"/>
+        <log type="tap" target="./var/logs/logfile.tap"/>
+        <log type="junit" target="./var/logs/logfile.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="./var/logs/testdox.html"/>
+        <log type="testdox-text" target="./var/logs/testdox.txt"/>
     </logging>
+    <listeners>
+        <listener class="Mage_Listener_EventListener">
+        </listener>
+    </listeners>
 </phpunit>

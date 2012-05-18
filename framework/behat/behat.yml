@@ -1,0 +1,16 @@
+default:
+default:
+    paths:
+        features:   features/
+        bootstrap:  features/bootstrap/
+    options:
+        cache: /tmp/behat/behat
+    formatter:
+          name:                       'pretty'
+          parameters:
+              decorated:              true
+              verbose:                false
+              time:                   true
+              language:               'en'
+              output_path:            null
+              multiline_arguments:    true

@@ -1,0 +1,251 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#*********************************************
+#*          Credit Card Data                 *
+#*********************************************
+#<------------Saved CC------------>
+saved_empty_all:
+    name_on_card: ' '
+    card_type: ' '
+    card_number: ' '
+    expiration_month: ' '
+    expiration_year: ' '
+    card_verification_number: ' '
+
+saved_american_express:
+    name_on_card: 'Test Account'
+    card_type: 'American Express'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_visa: &visaSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Visa'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_mastercard:
+    name_on_card: 'Test Account'
+    card_type: 'MasterCard'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_jcb:
+    name_on_card: 'Test Account'
+    card_type: 'JCB'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_laser:
+    name_on_card: 'Test Account'
+    card_type: 'Laser'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_uatp:
+    name_on_card: 'Test Account'
+    card_type: 'UATP'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_diners_club:
+    name_on_card: 'Test Account'
+    card_type: 'Diners Club'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_switch_maestro:
+    name_on_card: 'Test Account'
+    card_type: 'Switch/Maestro'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+    issue_number: 'YOUR CREDENTIALS'
+    start_date_month: 'YOUR CREDENTIALS'
+    start_date_year: 'YOUR CREDENTIALS'
+
+saved_discover:
+    name_on_card: 'Test Account'
+    card_type: 'Discover'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_solo:
+    name_on_card: 'Test Account'
+    card_type: 'Solo'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+    issue_number: 'YOUR CREDENTIALS'
+    start_date_month: 'YOUR CREDENTIALS'
+    start_date_year: 'YOUR CREDENTIALS'
+
+saved_enroute:
+    name_on_card: 'Test Account'
+    card_type: 'enRoute'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+saved_other:
+    name_on_card: 'Test Account'
+    card_type: 'Other'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+#<------------ELSE------------>
+else_american_express:
+    card_type: 'American Express'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_visa: &visaElse
+    card_type: 'Visa'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_mastercard: &mastercardElse
+    card_type: 'MasterCard'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_discover:
+    card_type: 'Discover'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_other:
+    card_type: 'Other'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_jcb: &jcbElse
+    card_type: 'JCB'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+else_solo:
+    card_type: 'Solo'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+    issue_number: 'YOUR CREDENTIALS'
+    start_date_month: 'YOUR CREDENTIALS'
+    start_date_year: 'YOUR CREDENTIALS'
+
+else_switch_maestro:
+    card_type: 'Switch/Maestro'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+    issue_number: 'YOUR CREDENTIALS'
+    start_date_month: 'YOUR CREDENTIALS'
+    start_date_year: 'YOUR CREDENTIALS'
+
+#<------------Specific Card------------>
+payflowpro_mastercard:
+    card_type: 'MasterCard'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+3dsecure_visa:
+    card_type: 'Visa'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+
+3dsecure_jcb:
+    card_type: 'JCB'
+    card_number: 'YOUR CREDENTIALS'
+    expiration_month: 'YOUR CREDENTIALS'
+    expiration_year: 'YOUR CREDENTIALS'
+    card_verification_number: 'YOUR CREDENTIALS'
+#*********************************************
+#*              Payment Data                 *
+#*********************************************
+
+payment_checkmoney:
+    payment_method: Check / Money order
+
+payment_savedcc:
+    payment_method: Credit Card (saved)
+    payment_info: *visaSavedCC
+
+payment_paypaldirectuk:
+    payment_method: PayPal Direct Payment Payflow Edition
+    payment_info: *mastercardElse
+
+payment_paypaldirect:
+    payment_method: PayPal Direct Payment
+    payment_info: *mastercardElse
+
+payment_payflowpro:
+    payment_method: Payflow Pro
+    payment_info: *visaElse
+
+payment_authorizenet:
+    payment_method: Credit Card (Authorize.net)
+    payment_info: *visaElse

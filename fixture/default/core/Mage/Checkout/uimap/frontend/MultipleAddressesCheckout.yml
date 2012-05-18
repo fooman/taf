@@ -1,0 +1,410 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# 'Checkout with Multiple Addresses' page
+checkout_multishipping_login:
+    mca: checkout/multishipping/login/
+    title: Customer Login
+    uimap:
+        form:
+            fieldsets:
+                -
+                    new_account:
+                        xpath: //div[contains(@class,'new-users')]
+                        buttons:
+                            create_account: //button[span='Create an Account' or span='Register']
+                -
+                    log_in_customer:
+                        xpath: //div[contains(@class,'registered-users')]
+                        buttons:
+                            login: //button[span='Login']
+                        links:
+                            forgot_password: //a[text()='Forgot Your Password?']
+                        fields:
+                            email: //input[@id='email']
+                            password: //input[@id='pass']
+        messages: &checkoutMessages
+            empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
+            please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
+            different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
+            invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
+            invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
+            long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
+            invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
+            invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
+            incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
+            invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid login or password.')]
+            empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
+            success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
+            payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
+            no_shipping: //h2[text()='%addressHeader%']//following-sibling::div[1]//p[text()='Sorry, no quotes are available for this order at this time.']
+            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[normalize-space(text())='%shipService%: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']"
+            paypal_alert: There was an error processing your order. Please contact us or try again later.
+            shipping_alert: Please specify shipping method.
+            payment_alert: Please specify payment method.
+            success_checkout: //h2[contains(.,'Thank you for your purchase!')]
+            success_registered_user: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
+            not_valid_length: //li[normalize-space(@class)='error-msg' and contains(.,'"%fieldName%" length must be equal or less than 255 characters.')]
+            not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
+            invalid_mail: //div[@id='advice-validate-email-email_address']
+            passwords_not_match: //div[@id='advice-validate-cpassword-confirmation']
+            short_passwords: //div[@id='advice-validate-password-password']
+            email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
+            shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
+
+checkout_multishipping_register:
+    mca: checkout/multishipping/register/
+    title: Create New Customer Account
+    uimap:
+        form: &newCustomerForm
+            fieldsets:
+                -
+                    account_info:
+                        xpath: //form[@id='form-validate']
+                        buttons:
+                            submit: //button[span='Submit']
+                        checkboxes:
+                            sign_up_newsletter: //input[@id='is_subscribed']
+                        dropdowns:
+                            state: //select[@id='region_id']
+                            country: //select[@id='country']
+                        links:
+                            back: //p[@class='back-link']/a
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            email: //input[@id='email_address']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@id='city']
+                            zip_code: //input[@id='zip']
+                            region: //input[@id='region']
+                            password: //input[@id='password']
+                            password_confirmation: //input[@id='confirmation']
+        messages: *checkoutMessages
+
+checkout_multishipping_addresses:
+    mca: checkout/multishipping/addresses/
+    title: Ship to Multiple Addresses - Magento Commerce
+    uimap: &checkoutMultishipping
+        form:
+            fieldsets:
+                -
+                    checkout_progress: &checkoutProgress
+                        xpath: //*[@id='checkout-progress-state']
+                        pageelements:
+                            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%addressParams%]]/h3
+                            select_addresses: //li[@title='Select Addresses']
+                            shipping_information: //li[@title='Shipping Information']
+                            billing_information: //li[@title='Billing Information']
+                            place_order: //li[@title='Place Order']
+                            order_success: //li[@title='Order Success']
+                -
+                    checkout_multishipping_form:
+                        xpath: //form[@id='checkout_multishipping_form']
+                        buttons:
+                            add_new_address: //button[span='Enter a New Address']
+                            update_qty_and_addresses: //button[span='Update Qty & Addresses']
+                            continue_to_shipping_information: //button[span='Continue to Shipping Information']
+                        links:
+                            product: //a[text()='%productName%']
+                            back_to_shopping_cart: //a[contains(text(),'Back to Shopping Cart')]
+                            remove_product: //tr[.//a='%productName%']//a[contains(@href, 'removeItem')]
+                        dropdowns:
+                            address_choice: //tr[.//a='%productName%'][%index%]//select
+                            is_any_address_choice: //tr[.//a='%productName%']//select
+                        fields:
+                            product_qty: //tr[.//a='%productName%']//input[@type='text']
+        messages: *checkoutMessages
+
+checkout_multishipping_addresses_post:
+    mca: checkout/multishipping/addressesPost/
+    title: Ship to Multiple Addresses - Magento Commerce
+    uimap: *checkoutMultishipping
+
+checkout_multishipping_new_shipping:
+    mca: checkout/multishipping_address/newShipping/
+    title: Create Shipping Address - Magento Commerce
+    uimap:
+        form: &createNewAddress
+            fieldsets:
+                -
+                    create_shipping_address:
+                        xpath: //div[div/h1[contains(text(),'Create Shipping Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            fax: //input[@id='fax']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@id='city']
+                            region: //input[@id='region']
+                            zip_code: //input[@id='zip']
+                        dropdowns:
+                            state: //select[@id='region_id']
+                            country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+        messages: *checkoutMessages
+
+checkout_multishipping_shipping_methods:
+    mca: checkout/multishipping/shipping/
+    title: Shipping Methods - Magento Commerce
+    uimap:
+        form: &createNewShipping
+            fieldsets:
+                -
+                    checkout_progress: *checkoutProgress
+                -
+                    general_shipping_methods_form:
+                        xpath: //form[@id='shipping_method_form']
+                        pageelements:
+                            shipping_methods_forms: /div[h2]
+                            shipping_method_address_header: /div[h2][%number%]/h2
+                            shipping_method_address: /div[h2][%number%]//address
+                        buttons:
+                            continue_to_billing_information: //button[span='Continue to Billing Information']
+                        links:
+                            back_to_select_addresses: //a[text()='Back to Select Addresses']
+                -
+                    shipping_method_form:
+                        xpath: //h2[text()='%addressHeader%']//following-sibling::div[1]
+                        links:
+                            change_shipping_address: //a[contains(@href,'editShipping/id/')]
+                            edit_items: //a[contains(@href, 'backToAddresses/')]
+                            product: //a[text()='%productName%']
+                            product_qty: //tr[.//a[text()='%productName%']]/td/text()
+                        checkboxes:
+                            add_gift_options: //p[label='Add gift options']/input
+                            gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
+                            gift_option_for_individual_items: //p[label='Add gift options for Individual Items']/input
+                        radiobuttons:
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input[not(@checked)]
+                            one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
+                        fields:
+                            ship_service_name: //dt[text()='%shipService%']
+                            #@TODO
+                            gift_option_entire_order_from: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='From']
+                            gift_option_entire_order_to: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='To']
+                            gift_option_entire_order_message: //div[contains(@id,'allow-gift-messages-for-order-container')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
+                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]] //input[@title='To']
+                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='Message']
+        messages: *checkoutMessages
+
+checkout_multishipping_edit_shipment_address:
+    mca: checkout/multishipping_address/editShipping/id/%id%/
+    title: Edit Shipping Address - Magento Commerce
+    uimap:
+        form:
+            fieldsets:
+                -
+                    edit_shipping_address:
+                        xpath: //div[div/h1[contains(text(),'Edit Shipping Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            fax: //input[@id='fax']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@id='city']
+                            zip_code: //input[@id='zip']
+                            region: //input[@id='region']
+                        dropdowns:
+                            state: //select[@id='region_id']
+                            country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+        messages: *checkoutMessages
+
+checkout_multishipping_payment_methods:
+    mca: checkout/multishipping/billing/
+    title: Billing Information - Magento Commerce
+    uimap:
+        form: &paymentForOrder
+            fieldsets:
+                -
+                    checkout_progress: *checkoutProgress
+                -
+                    payment_method:
+                        xpath: //div[div/h1[contains(text(),'Billing Information')]]
+                        buttons:
+                            continue_to_review_order: //button[span='Continue to Review Your Order']
+                        radiobuttons:
+                            check_payment_method: //input[@title='%paymentTitle%']
+                            selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
+                        fields:
+                            name_on_card: //input[@id='%paymentId%_cc_owner']
+                            card_number: //input[@id='%paymentId%_cc_number']
+                            card_verification_number: //input[@id='%paymentId%_cc_cid']
+                        dropdowns:
+                            card_type: //select[@id='%paymentId%_cc_type']
+                            expiration_month: //select[@id='%paymentId%_expiration']
+                            expiration_year: //select[@id='%paymentId%_expiration_yr']
+                        links:
+                            change_billing_address: //a[contains(@href,'selectBilling/')]
+                            back_to_shipping_information: //a[text()='Back to Shipping Information']
+                        pageelements:
+                            billing_method_address: //address
+        messages: *checkoutMessages
+
+checkout_multishipping_select_billing_address:
+    mca: checkout/multishipping_address/selectBilling/
+    title: Change Billing Address - Magento Commerce
+    uimap:
+        form: &selectBillingAddress
+            fieldsets:
+                -
+                    choose_billing_address:
+                        xpath: //div[div/h1[contains(text(),'Change Billing Address')]]
+                        buttons:
+                            add_new_address: //button[span='Add New Address']
+                        links:
+                            back_to_billing_info: //a[text()='Back to Billing Information']
+                        pageelements:
+                            billing_addresses: //address
+                            billing_method_address: /descendant::*[address][%number%]/address
+                -
+                    billing_address:
+                        xpath: //div[div/h1[contains(text(),'Change Billing Address')]]/descendant::*[address][%number%]
+                        links:
+                            edit_address: //a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //a[contains(@href, 'multishipping_address/setBilling/id/')]
+        messages: *checkoutMessages
+
+checkout_multishipping_create_billing_address:
+    mca: checkout/multishipping_address/newBilling/
+    title: Create Billing Address - Magento Commerce
+    uimap:
+        form: 
+            fieldsets:
+                -
+                    create_billing_address:
+                        xpath: //div[div/h1[contains(text(),'Create Billing Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            fax: //input[@id='fax']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@id='city']
+                            zip_code: //input[@id='zip']
+                            region: //input[@id='region']
+                        dropdowns:
+                            state: //select[@id='region_id']
+                            country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+        messages: *checkoutMessages
+
+checkout_multishipping_edit_billing_address:
+    mca: checkout/multishipping_address/editAddress/id/%id%/
+    title: Edit Address - Magento Commerce
+    uimap:
+        form: *createNewAddress
+        messages: *checkoutMessages
+
+checkout_multishipping_review_order:
+    mca: checkout/multishipping/overview/
+    title: Review Order - Magento Commerce
+    uimap:
+        form: &reviewOrder
+            fieldsets:
+                -
+                    checkout_progress: *checkoutProgress
+                -
+                    review_order:
+                        xpath: //div[div/h1[contains(text(),'Review Order')]]
+                        links:
+                            billing_address_change: //a[contains(@href, 'editBilling/')]
+                            payment_method_change: //a[contains(@href, 'backtobilling/')][text()='Change']
+                            shipping_to_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'editShipping/')]
+                            shipping_method_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'backtoshipping/')]
+                            back_to_billing_information: //a[text() = 'Back to Billing Information')]
+                        pageelements:
+                            product_table_head: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
+                            price_totals: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
+                            product_line:  //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr
+                        buttons:
+                            place_order: //button[span='Place Order']
+                -
+                    3d_secure_card_validation: &3DSecureCardValidation
+                        xpath: //div[@id='centinel_authenticate_block']
+                        pageelements:
+                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
+                -
+                    3d_secure_frame: &3DSecureCardValidation
+                        xpath:
+                        fields:
+                            3d_password: //input[@name='external.field.password']
+                        buttons:
+                            3d_submit: //input[@value='Submit']
+                            3d_continue: //input[@value='Continue']
+                        pageelements:
+                            incorrect_password: //b[text()='Incorrect, Please try again']
+                            verification_successful: //h1[text()='Verification Successful']
+
+checkout_multishipping_success_order:
+    mca: checkout/multishipping/success/
+    title: Magento Commerce
+    uimap:
+        form: 
+            fieldsets:
+                -
+                    checkout_progress: *checkoutProgress
+                -
+                    success_order:
+                        xpath: //div[div/h1[text()='Order Success']]
+                        links:
+                            all_order_number: //a
+                            order_number: //a[text()='%orderId%']
+                        buttons:
+                            continue_shopping: //button[span='Continue Shopping']
+        messages: *checkoutMessages
